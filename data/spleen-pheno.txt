@@ -1,1 +1,1 @@
-http://gn1.genenetwork.org/webqtl/main.py?FormID=sharinginfo&GN_AccessionId=283
+http://datafiles.genenetwork.org/download/GN283/GN283_MeanDataAnnotated_rev081815.txt
