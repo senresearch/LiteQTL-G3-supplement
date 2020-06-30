@@ -1,7 +1,7 @@
 ## load library
 library(tidyverse)
 ## read expression traits as character
-d <- read.csv(file="GN206_MeanDataAnnotated_rev081815.txt",skip=32,sep="\t",colClasses="character")
+d <- read.csv(file="../data/raw/GN206_MeanDataAnnotated_rev081815.txt",skip=32,sep="\t",colClasses="character")
 ## read genotype file as character
 g <- read.csv("../geno/BXD_current.geno",sep="\t",skip=21,colClasses="character")
 
@@ -68,6 +68,3 @@ write_csv(gd,path="hippocampus-rqtl.csv",col_names=F,na="")
 
 ## read in data in R/qtl
 bxd <- read.cross(file="hippocampus-rqtl.csv",format="csv",crosstype="risib",genotypes=c("B","D"))
-
-
-
