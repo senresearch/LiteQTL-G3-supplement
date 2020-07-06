@@ -4,5 +4,25 @@ This repository contains code that reproduces results from [LMGPU](https://www.b
 - It uses Julia 1.0.5
 - Dependencies:
   - [CUDA](https://developer.nvidia.com/cuda-92-download-archive), [CuArrays](https://github.com/JuliaGPU/CuArrays.jl), [CUDAnative](https://github.com/JuliaGPU/CUDAnative.jl), [CUDAdrv](https://github.com/JuliaGPU/CUDAdrv.jl)
-  - Julia libraries: DelimitedFiles, LinearAlgebra
-  
+  - Julia libraries: DelimitedFiles, LinearAlgebra, BenchmarkTools,
+
+
+Dataset:
+Download script: code/download_data.jl
+- Spleen (citation)
+  - download link
+- Hippocampus (citation)
+  - download link
+
+Data cleaning scripts:
+- Dependencies: mice, r/qtl (citation), r/qtl2 (citation), tidyverse
+
+Comparison:
+- gemma (citation)
+  - run script
+- r/qtl2 (citation)
+  - run script
+
+Run gemm:
+- run script
+- Dependencies: LinearAlgebra, CuArrays, BenchmarkTools

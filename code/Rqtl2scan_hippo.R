@@ -3,7 +3,7 @@ library(qtl)
 #bxd <- read.cross(file="data/hippocampus-rqtl.csv",format="csv",crosstype="risib",genotypes=c("B","D"))
 print("done read.cross")
 
-#drop obs. & traits with all NAs 
+#drop obs. & traits with all NAs
 #keepidx<-which(rowSums(is.na(bxd$pheno))<1000798)
 
 #c1<-subset(bxd,ind=keepidx)
@@ -67,6 +67,4 @@ out <- scan1(pr, pheno_nomissing, cores=ncores)
 toc()
 print("done scanning, printing out result")
 
-write.csv(out,filename="../rqtl_lod_score.csv")
-
-
+# write.csv(out,filename="../rqtl_lod_score.csv")
