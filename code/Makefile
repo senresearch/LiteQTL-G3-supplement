@@ -1,9 +1,21 @@
+all: getdata cleandata #rscan compare
+
 .PHONY: all
 
-all:
+getdata:
 	julia download-data.jl
+
+installrlib:
+	Rscript rlibdep.R
+
+cleandata:
 	Rscript clean-spleen-data.R
 	Rscript clean-hippo-data.R
 
 rscan:
-	Rscript 
+	Rscript Rqtl2scan.R
+
+# juliascan:
+
+
+# compare:
