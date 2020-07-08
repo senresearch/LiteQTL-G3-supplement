@@ -1,9 +1,20 @@
+
+# What are the required packages. 
+packages = c("tidyverse","qtl","tictoc","qtl2")
+
+# Specify CRAN mirror
 local({r <- getOption("repos")
    r["CRAN"] <- "https://mirrors.nics.utk.edu/cran"
    options(repos=r)
 })
 
-install.packages("tidyverse")
-install.packages("qtl")
-install.packages("tictoc")
-install.packages("qtl2")
+## Now load or install&load all
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)

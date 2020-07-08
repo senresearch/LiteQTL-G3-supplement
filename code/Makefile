@@ -1,4 +1,4 @@
-all: getdata cleandata #rscan compare
+all: getdata installrlib cleandata #rscan compare
 
 .PHONY: all
 
