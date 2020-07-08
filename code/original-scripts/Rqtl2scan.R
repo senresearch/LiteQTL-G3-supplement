@@ -1,7 +1,11 @@
 library(qtl)
 ## readin data in R/qtl
-bxd <- read.cross(file="bxd/spleen/scripts/geno-pheno-rqtl.csv",format="csv",
+
+bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
                   crosstype="risib",genotypes=c("B","D"))
+
+# bxd <- read.cross(file="bxd/spleen/scripts/geno-pheno-rqtl.csv",format="csv",
+#                   crosstype="risib",genotypes=c("B","D"))
 pheno<-read.csv("traits.csv",sep=",")
 
 
