@@ -31,9 +31,11 @@ cvt1<-convert2cross2(c1)
 map <- insert_pseudomarkers(cvt1$gmap, step=0)
 pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=4)
 
-tic()
-out <- scan1(pr, cvt1$pheno, cores=32)
-toc()
+
+scantime <- system.time({
+    out <- scan1(pr, cvt1$pheno, cores=32)
+})
+print("Rqtl Genome scan for spleen data took ", scantime)
 # This ran 56.461 seconds on imac pro (3 GHz Intel Xeon W)
-write.csv(out,filename="../rqtl_lod_score.csv")
+write.csv(out,filename="../data/results/rqtl_lod_score_spleen.csv")
 
