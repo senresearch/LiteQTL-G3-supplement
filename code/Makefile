@@ -1,4 +1,4 @@
-all: getdata installrlib cleandata #rscan compare
+all: getdata installrlib cleandata rscan #compare
 
 .PHONY: all
 
@@ -13,7 +13,10 @@ cleandata:
 	Rscript clean-hippo-data.R
 
 rscan:
-	Rscript Rqtl2scan.R
+	Rscript Rqtl2scan_spleen.R
+	# Rscript Rqtl2scan_hippo.R
+
+gemmascan:
 
 # juliascan:
 

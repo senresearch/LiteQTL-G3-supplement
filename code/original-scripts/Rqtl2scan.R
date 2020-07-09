@@ -4,7 +4,7 @@ library(qtl)
 ## readin data in R/qtl
 bxd <- read.cross(file="bxd/spleen/scripts/geno-pheno-rqtl.csv",format="csv",
                   crosstype="risib",genotypes=c("B","D"))
-pheno<-read.csv("traits.csv",sep=",")
+
 
 
 #drop obs. & traits with all NAs 
@@ -19,7 +19,9 @@ c1$pheno<-c1$pheno[,-1]
 
 droptrait<-which(colSums(is.na(c1$pheno))==79)
 c1$pheno<-c1$pheno[,-droptrait]
-c1$pheno<-pheno
+
+# pheno<-read.csv("traits.csv",sep=",")
+# c1$pheno<-pheno
 
 library(tictoc)
 library(qtl2)
