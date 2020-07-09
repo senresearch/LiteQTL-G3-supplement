@@ -1,6 +1,6 @@
 
 # What are the required packages. 
-packages = c("tidyverse","qtl","tictoc","qtl2")
+packages = c("tidyverse","qtl","mice","tictoc","qtl2")
 
 # Specify CRAN mirror
 local({r <- getOption("repos")
