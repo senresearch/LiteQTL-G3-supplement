@@ -1,8 +1,15 @@
+
+library(qtl)
+## readin data in R/qtl
+
+bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
+                  crosstype="risib",genotypes=c("B","D"))
 #calculate genotype probability (filling genotype prob only)
 p_gprob<-calc.genoprob(bxd)
 #pull genotype and phenotype data
 gprob<-pull.genoprob(p_gprob)
 pheno<-pull.pheno(bxd)
+
 #get indices of rows having too many NA
 omitind<-which(rowSums(is.na(pheno))<35500)
 
