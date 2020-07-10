@@ -16,7 +16,7 @@ c1$pheno<-c1$pheno[,-1]
 
 droptrait<-which(colSums(is.na(c1$pheno))==79)
 c1$pheno<-c1$pheno[,-droptrait]
-
+write.csv(c1$pheno, file="../data/processed/spleen-pheno-nomissing.csv")
 # extract genotype data from the processed data
 #gen<-pull.geno(c1)
 #write.csv(gen,file="genotypedata.csv")
@@ -30,12 +30,12 @@ cvt1<-convert2cross2(c1)
 #insert pseudomarker
 map <- insert_pseudomarkers(cvt1$gmap, step=0)
 pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=4)
-
+write.csv(pr, file="../data/processed/bxd-genoprob_spleen.csv")
 
 scantime <- system.time({
     out <- scan1(pr, cvt1$pheno, cores=32)
 })
 print("Rqtl genome scan for spleen data took ", scantime)
 # This ran 56.461 seconds on imac pro (3 GHz Intel Xeon W)
-write.csv(out,filename="../data/results/rqtl_lod_score_spleen.csv")
+write.csv(out,file="../data/results/rqtl_lod_score_spleen.csv")
 

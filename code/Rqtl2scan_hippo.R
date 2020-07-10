@@ -19,6 +19,8 @@ table(colSums(is.na(trait[,-end])))
 drop.idx<-which(colSums(is.na(trait[,2:(end-1)]))>42)
 trait<-trait[,2:(end-1)]
 trait<-trait[,-drop.idx]
+write.csv(trait, file="../data/processed/hippo-pheno-nomissing.csv")
+
 
 library(parallel)
 library(qtl2)
@@ -33,7 +35,7 @@ cvt1<-convert2cross2(c1)
 map <- insert_pseudomarkers(cvt1$gmap, step=0)
 pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=ncores)
 print("done calc genoprob")
-
+write.csv(pr, file="../data/processed/bxd-genoprob_hippo.csv")
 
 scantime <- system.time({
     out <- scan1(pr, trait, cores=ncores)
@@ -41,4 +43,4 @@ scantime <- system.time({
 print("Rqtl genome scan for hippocampus data took ", scantime)
 print("done scanning, printing out result...")
 
-write.csv(out,filename="../data/results/rqtl_lod_score_hippo.csv")
+write.csv(out,file="../data/results/rqtl_lod_score_hippo.csv")
