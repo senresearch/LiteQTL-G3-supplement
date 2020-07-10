@@ -54,5 +54,5 @@ omitind<-which(rowSums(is.na(pheno))<35500)
 
 geno0<-gprob[omitind,]
 
-write.csv(geno0,file="geno_prob.csv",quote = FALSE)
+write.csv(geno0,file="../data/processed/geno_prob.csv",quote = FALSE)
 
