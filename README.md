@@ -3,7 +3,7 @@ This repository contains code that reproduces results from paper: [Speeding up e
 This repository is organized as follow:
 - code: This folder contains all necessary scripts to regenerate results from the paper, which includes a) downloading dataset used in the paper and put it in `data` folder, b) get dependency R and Julia packages, c) clean and prepare data for genome scan, d) run genome scan. 
 
-- data: This folder contains all data used in the paper. Sub folder includes `raw` and `processed`. downloaded data will be placed in `raw`, and cleaned data will be placed in `processed`. 
+- data: This folder contains all data used in the paper. Sub folder includes `raw` and `processed`. downloaded data will be placed in `raw`, and cleaned data will be placed in `processed`. Generated genome scan results will be placed in `results`.
 
 - figures: generated figures will be placed here. 
 

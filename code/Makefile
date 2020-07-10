@@ -10,15 +10,25 @@ installrlib:
 
 cleandata:
 	Rscript clean-spleen-data.R
-	Rscript clean-hippo-data.R
+	# Rscript clean-hippo-data.R
+
+calc_genoprob:
+	Rscript calc_genoprob.R
+
+remove_missing_pheno:
+	Rscript remove_spleen_pheno.R
+	# Rscript remove_hippo_pheno.R 
 
 rscan:
 	Rscript Rqtl2scan_spleen.R
 	# Rscript Rqtl2scan_hippo.R
 
-gemmascan:
+# gemmascan:
 
 # juliascan:
 
 
 # compare:
+
+# gemm:
+

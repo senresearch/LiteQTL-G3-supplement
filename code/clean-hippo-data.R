@@ -54,7 +54,7 @@ d3$id  <- d2names
 print("joining geno and pheno...")
 ## make a right join on id
 ## this will keep all the traits with genotypes
-gd <- right_join(d3,g3,"id")
+gd <- right_join(d3,g3,"id")# The right join may take a day or two with one process running. Active CPU time is about 6 hours...
 ## fill in probeset names
 gd[1,1:ncol(d3)] <- d3[1,]
 ## create an extra ID column

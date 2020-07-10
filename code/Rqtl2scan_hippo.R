@@ -2,7 +2,7 @@
 
 library(qtl)
 ## readin data in R/qtl
-bxd <- read.cross(file="data/processed/hippocampus-rqtl.csv",format="csv",crosstype="risib",genotypes=c("B","D"))
+bxd <- read.cross(file="../data/processed/hippocampus-geno-pheno-rqtl.csv",format="csv",crosstype="risib",genotypes=c("B","D"))
 print("done read.cross")
 
 #drop obs. & traits with all NAs
@@ -21,7 +21,6 @@ trait<-trait[,2:(end-1)]
 trait<-trait[,-drop.idx]
 
 library(parallel)
-library(tictoc)
 library(qtl2)
 #count # of cores
 ncores=detectCores()
