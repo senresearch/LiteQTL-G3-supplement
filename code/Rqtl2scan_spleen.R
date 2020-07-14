@@ -14,7 +14,12 @@ c1<-subset(bxd,ind=keepidx)
 rownames(c1$pheno)<-c1$pheno$ID
 c1$pheno<-c1$pheno[,-1]
 
+
+end<-dim(c1$pheno)[2]
+
+
 droptrait<-which(colSums(is.na(c1$pheno))==79)
+c1$pheno<-c1$pheno[,1:(end-1)]
 c1$pheno<-c1$pheno[,-droptrait]
 write.csv(c1$pheno, file="../data/processed/spleen-pheno-nomissing.csv")
 # extract genotype data from the processed data

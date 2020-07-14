@@ -12,9 +12,14 @@ c1<-subset(bxd,ind=keepidx)
 rownames(c1$pheno)<-c1$pheno$ID
 c1$pheno<-c1$pheno[,-1]
 
-droptrait<-which(colSums(is.na(c1$pheno))==79)
+# droptrait<-which(colSums(is.na(c1$pheno)) == 79) # From Hyeonju's code. But it didn't remove all NAs. 
+droptrait<-which(colSums(is.na(c1$pheno))>0)
 c1$pheno<-c1$pheno[,-droptrait]
 
+
+end<-dim(c1$pheno)[2]
+c1$pheno <- c1$pheno[,1:end-1]
+
+
+
 write.csv(c1$pheno, file="../data/processed/spleen_traits_nomissing.csv")
-# pheno<-read.csv("traits.csv",sep=",")
-# c1$pheno<-pheno

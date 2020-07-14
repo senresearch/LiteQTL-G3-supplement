@@ -1,4 +1,4 @@
-all: getdata installrlib cleandata rscan #compare
+all: getdata installlib cleandata rscan #compare
 
 .PHONY: all
 
@@ -7,19 +7,20 @@ getdata:
 
 getgmap:
 	julia getgmap.jl
-	
-installrlib:
+
+installlib:
 	Rscript rlibdep.R
+	julia juliadep.jl
 
 cleandata:
 	Rscript clean-spleen-data.R
 	# Rscript clean-hippo-data.R
 
-# calc_genoprob:
-# 	Rscript calcgenoprob.R
+calc_genoprob:
+	Rscript calcgenoprob.R
 
-# remove_missing_pheno:
-# 	Rscript remove_spleen_pheno.R
+remove_missing_pheno:
+	Rscript remove_spleen_pheno.R
 # 	# Rscript remove_hippo_pheno.R 
 
 rscan:
@@ -28,9 +29,9 @@ rscan:
 	# Rscript Rqtl2scan_hippo.R
 
 # TODO:
-# juliascan:
-	run_lmgpu.sh
+juliascan:
+	julia julia-genomescan.jl
 # compare:
 	julia check_results.jl
-# gemm:
-	julia gemm_test.jl
+# gemm: # TODO: wait until have access to acf. 
+# 	julia gemm_test.jl

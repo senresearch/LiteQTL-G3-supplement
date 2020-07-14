@@ -11,13 +11,15 @@ keepidx<-which(rowSums(is.na(bxd$pheno))<1000798)
 c1<-subset(bxd,ind=keepidx)
 rownames(c1$pheno)<-c1$pheno$ID
 c1$pheno<-c1$pheno[,-1]
+
+
 trait<-c1$pheno
 end<-dim(trait)[2]
 
  #check NAs
 table(colSums(is.na(trait[,-end])))
 drop.idx<-which(colSums(is.na(trait[,2:(end-1)]))>42)
-trait<-trait[,2:(end-1)]
+trait<-trait[,1:(end-1)]
 trait<-trait[,-drop.idx]
 write.csv(trait, file="../data/processed/hippo-pheno-nomissing.csv")
 
