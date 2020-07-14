@@ -18,7 +18,7 @@ c1$pheno<-c1$pheno[,-1]
 end<-dim(c1$pheno)[2]
 
 
-droptrait<-which(colSums(is.na(c1$pheno))==79)
+droptrait<-which(colSums(is.na(c1$pheno))>0)
 c1$pheno<-c1$pheno[,1:(end-1)]
 c1$pheno<-c1$pheno[,-droptrait]
 write.csv(c1$pheno, file="../data/processed/spleen-pheno-nomissing.csv")
@@ -28,7 +28,6 @@ write.csv(c1$pheno, file="../data/processed/spleen-pheno-nomissing.csv")
 # pheno<-read.csv("traits.csv",sep=",")
 # c1$pheno<-pheno
 
-library(tictoc)
 library(qtl2)
 # convert a cross from the qtl format to the qtl2 format
 cvt1<-convert2cross2(c1)
@@ -40,7 +39,7 @@ write.csv(pr, file="../data/processed/bxd-genoprob_spleen.csv")
 scantime <- system.time({
     out <- scan1(pr, cvt1$pheno, cores=32)
 })
-print("Rqtl genome scan for spleen data took ", scantime)
+cat("Rqtl genome scan for spleen data took ", scantime)
 # This ran 56.461 seconds on imac pro (3 GHz Intel Xeon W)
 write.csv(out,file="../data/results/rqtl_lod_score_spleen.csv")
 

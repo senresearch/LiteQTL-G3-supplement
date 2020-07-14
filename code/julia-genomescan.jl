@@ -5,11 +5,10 @@ using DelimitedFiles
 
 function main()
     # if no input args.
-    geno_file = joinpath(@__DIR__, "..", "data", "processed", "genopr-AA-BB.csv")
-    pheno_file = joinpath(@__DIR__, "..", "data","processed", "spleen_traits_nomissing.csv")
+    geno_file = joinpath(@__DIR__, "..", "data", "processed", "bxd-genoprob_spleen.csv")
+    pheno_file = joinpath(@__DIR__, "..", "data","processed", "spleen-pheno-nomissing.csv")
     export_matrix = true
-    output_file = "lmgpu_output.csv"
-    gmap_file = joinpath(@__DIR__, "..", "data", "processed","gmap.csv")
+    output_file = "lmgpu_spleen_output.csv"
     r_sign = false
 
     LMGPU.set_blas_threads(16);
