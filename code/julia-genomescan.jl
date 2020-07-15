@@ -7,7 +7,7 @@ function main()
     # if no input args.
     geno_file = joinpath(@__DIR__, "..", "data", "processed", "bxd-genoprob_spleen.csv")
     pheno_file = joinpath(@__DIR__, "..", "data","processed", "spleen-pheno-nomissing.csv")
-    export_matrix = true
+    export_matrix = false
     output_file = "lmgpu_spleen_output.csv"
     r_sign = false
 
@@ -23,10 +23,10 @@ function main()
     # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
 
     # running analysis.
-    lod = LMGPU.cpurun(Y, G,n,export_matrix, r_sign);
-
+    cpu_timing = @elapsed lod = LMGPU.cpurun(Y, G,n,export_matrix, r_sign);
+    println("CPU timing is $(cpu_timing)")
     # write output to file
-    writedlm(joinpath(Base.@__DIR__, "..", "data", "results", output_file), lod, ',')
+    # writedlm(joinpath(Base.@__DIR__, "..", "data", "results", output_file), lod, ',')
 
     # TODO: generate plot?
     # return lod
