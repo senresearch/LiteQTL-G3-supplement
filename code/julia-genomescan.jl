@@ -10,11 +10,12 @@ function main()
     export_matrix = false
     output_file = "lmgpu_spleen_output.csv"
     r_sign = false
+    datatype = Float32
 
     LMGPU.set_blas_threads(16);
     # Read in data.
-    G = LMGPU.get_geno_data(geno_file)
-    Y = LMGPU.get_pheno_data(pheno_file)
+    G = LMGPU.get_geno_data(geno_file,datatype)
+    Y = LMGPU.get_pheno_data(pheno_file,datatype)
     # getting geno and pheno file size.
     n = size(Y,1)
     m = size(Y,2)
