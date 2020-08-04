@@ -2,9 +2,11 @@
 
 library(qtl)
 ## readin data in R/qtl
+# bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
+#                   crosstype="risib",genotypes=c("B","D"))
+
 bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
                   crosstype="risib",genotypes=c("B","D"))
-
 
 
 #drop obs. & traits with all NAs 

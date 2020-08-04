@@ -8,9 +8,9 @@ getdata:
 getgmap:
 	julia getgmap.jl
 
-installlib:
-	Rscript rlibdep.R
-	julia juliadep.jl
+# installlib:
+# 	Rscript rlibdep.R
+# 	julia juliadep.jl
 
 #TODO: install CUDA 
 
@@ -18,8 +18,8 @@ cleandata:
 	Rscript clean-spleen-data.R
 	# Rscript clean-hippo-data.R # TODO: running this job on Bluff. Check on this later. 
 
-calc_genoprob:
-	Rscript calcgenoprob.R
+# calc_genoprob:
+# 	Rscript calcgenoprob.R
 
 # remove_missing_pheno:
 # 	Rscript remove_spleen_pheno.R
@@ -30,10 +30,11 @@ rscan:
 	Rscript Rqtl2scan_spleen.R
 	# Rscript Rqtl2scan_hippo.R
 
-# TODO:
 juliascan:
 	julia julia-genomescan.jl
 compare:
 	julia check_results.jl
-# gemm: # TODO: wait until have access to acf. 
-# 	julia gemm_test.jl
+gemm: 
+	JULIA_NUM_THREADS=16 julia dgemm-test.jl
+	# julia generate_figure.jl
+
