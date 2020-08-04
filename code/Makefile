@@ -1,16 +1,14 @@
 all: getdata installlib cleandata rscan #compare
-
 .PHONY: all
 
+JULIA_NUM_THREADS=16 
+
 getdata:
-	julia download-data.jl
+	# julia download-data.jl
 
-getgmap:
-	julia getgmap.jl
-
-# installlib:
-# 	Rscript rlibdep.R
-# 	julia juliadep.jl
+installlib:
+	# Rscript rlibdep.R
+	julia juliadep.jl
 
 #TODO: install CUDA 
 
@@ -18,23 +16,31 @@ cleandata:
 	Rscript clean-spleen-data.R
 	# Rscript clean-hippo-data.R # TODO: running this job on Bluff. Check on this later. 
 
+############## NO LONGER NEEDED ###############
+# getgmap:
+# 	julia getgmap.jl
+
 # calc_genoprob:
 # 	Rscript calcgenoprob.R
 
 # remove_missing_pheno:
 # 	Rscript remove_spleen_pheno.R
-# # 	# Rscript remove_hippo_pheno.R 
+# 	# Rscript remove_hippo_pheno.R 
+##############################################
 
 rscan:
 	# running the scan will also generate geno prob and pheno no missing data file. 
 	Rscript Rqtl2scan_spleen.R
 	# Rscript Rqtl2scan_hippo.R
 
+# TODO: test GPU implementation 
 juliascan:
-	julia julia-genomescan.jl
+	julia julia-genomescan.jl 
+	 # runs abount 2 seconds for max lod and float64 on my home imac 
 compare:
 	julia check_results.jl
 gemm: 
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl
-	# julia generate_figure.jl
+	# TODO: generate figure
+	julia generate_figure.jl
 

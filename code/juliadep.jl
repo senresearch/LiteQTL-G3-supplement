@@ -7,7 +7,7 @@ packages=["DelimitedFiles", "LMGPU"]
 installed=Pkg.installed()
 
 for p in packages 
-    if p in installed 
+    if haskey(installed, p)
         println("Package $p is installed. ")
     elseif p == "LMGPU"  
         Pkg.add(lmgpu_githubloc)
@@ -16,4 +16,3 @@ for p in packages
     end
 
 end
-
