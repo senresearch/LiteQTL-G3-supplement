@@ -80,5 +80,5 @@ gd <- filter(gd,id!="Mb")
 write_csv(gd,path="../data/processed/spleen-geno-pheno-rqtl.csv",col_names=F,na="")
 
 ## read in data in R/qtl
-# bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
-#                  crosstype="risib",genotypes=c("B","D"))
+bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
+                  crosstype="risib",genotypes=c("B","D"))
