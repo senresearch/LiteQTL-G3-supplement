@@ -42,35 +42,43 @@ g2names  <- names(g2)
 #####################
 
 ## transpose both genotype and expression data
-g3  <- as_tibble(t(g2))
-d3  <- as_tibble(t(d2))
+## make the first column the variable names of the tibble
+g3  <- t(g2[,-1])
+colnames(g3) <- g2[,1]
+g4 <- as_tibble(g3)
+#
+d3  <- t(d2[,-1])
+colnames(d3)  <- d2[,1]
+d4  <- as_tibble(d3)
+
 ## create id columns for both datasets
-g3$id  <- g2names
-d3$id  <- d2names
+g4$id  <- g2names[-1]
+d4$id  <- d2names[-1]
 
 ## make a right join on id
 ## this will keep all the traits with genotypes
-gd <- right_join(d3,g3,"id")
-## fill in probeset names
-gd[1,1:ncol(d3)] <- d3[1,]
-## create an extra ID column
-ID <- as.character(gd$id)
-## put that at the beginning of the data frame
-gd <- cbind(ID,gd)
-gd[,1] <- as.character(gd[,1])
-gd[1:4,1] <- c("ID",NA,NA,NA)
+gd <- right_join(d4,g4,"id")
+
+## get the rows with the marker info; they don't start with "B"
+gdMkinfo <- filter(gd,!str_detect(id,"^B+."))
+## all other rows
+gdinfo <- filter(gd,str_detect(id,"^B+."))
+## bind rows and make tibble
+gd <- tibble(bind_rows(gdMkinfo,gdinfo))
+## sanitize the id column by getting rid of the marker info annotation
+gd$id[!str_detect(gd$id,"^B+.")] <- ""
+## make id the first column 
+gd <- relocate(gd,id,.before=1)
+
 ## write out file
 write_csv(gd,path="../data/processed/spleen-geno-pheno.csv",col_names=F,na="")
 
 ## remove mb positions
-gd <- gd[-4,]
-## remove id
-ididx <- which(names(gd)=="id")
-gd <- gd[,-ididx]
+gd <- filter(gd,id!="Mb")
 
 ## write in R/qtl format
 write_csv(gd,path="../data/processed/spleen-geno-pheno-rqtl.csv",col_names=F,na="")
 
 ## read in data in R/qtl
 # bxd <- read.cross(file="../data/processed/spleen-geno-pheno-rqtl.csv",format="csv",
-#                   crosstype="risib",genotypes=c("B","D"))
+#                  crosstype="risib",genotypes=c("B","D"))
