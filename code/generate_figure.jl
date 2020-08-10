@@ -1,4 +1,4 @@
-
+# Need to install matplotlib  ` pip install matplotlib`
 # generate figure for dgemm 
 using DataFrames, CSV
 
@@ -35,3 +35,4 @@ pDim = num2k_string.(selected[:p])
 
 xname = string..(mDim,", ",nDim,", ",pDim)
 speedup = log2.(collect(selected[:speedup]));
+
