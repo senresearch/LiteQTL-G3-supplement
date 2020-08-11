@@ -1,10 +1,10 @@
 using CSV
 
-rqtl_result = CSV.read("../data/results/rqtl_lod_score_spleen.csv", datarow=2, transpose=true, threaded=true)
+rqtl_result = CSV.read("../data/results/rqtl_lod_score_spleen.csv", datarow=2)
 #remove row name column. 
-rqtl_result = rqtl_result[:, 2:end]
+rqtl_float = rqtl_result[:, 2:end] |> Matrix |> transpose
 # transform to float64
-rqtl_float = convert(Array{Float64,2}, rqtl_result)
+# rqtl_float = convert(Array{Float64,2}, rqtl_result)
 julia_result = CSV.read("../data/results/lmgpu_spleen_output.csv", datarow=1)
 julia_float = convert(Array{Float64,2}, julia_result)
 

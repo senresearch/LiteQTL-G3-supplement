@@ -33,7 +33,6 @@ rscan:
 	Rscript Rqtl2scan_spleen.R
 	# Rscript Rqtl2scan_hippo.R
 
-# TODO: test GPU implementation 
 juliascan:
 	JULIA_NUM_THREADS=16 julia julia-genomescan.jl 
 	 # runs abount 2 seconds for max lod and float64 on my home imac 
