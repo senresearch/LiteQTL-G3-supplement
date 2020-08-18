@@ -25,9 +25,9 @@ function main()
 
     # running analysis.
     cpu_timing = @elapsed lod = LMGPU.cpurun(Y, G,n,export_matrix);
-    println("CPU timing is $(cpu_timing)")
+    println("CPU timing is $(cpu_timing) with $datatype")
     # write output to file
-    writedlm(joinpath(Base.@__DIR__, "..", "data", "results", output_file), lod, ',')
+    writedlm(joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * output_file), lod, ',')
 
     # TODO: generate plot?
     # return lod

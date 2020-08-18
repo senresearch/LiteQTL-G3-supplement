@@ -35,7 +35,7 @@ rscan:
 
 juliascan:
 	JULIA_NUM_THREADS=16 julia julia-genomescan.jl 
-	 # runs abount 2 seconds for max lod and float64 on my home imac 
+	 # runs abount 2 seconds  for max lod and float64 on my home imac 
 compare:
 	julia check_results.jl
 gemm: 

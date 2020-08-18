@@ -71,7 +71,7 @@ gd$id[!str_detect(gd$id,"^B+.")] <- ""
 gd <- relocate(gd,id,.before=1)
 
 ## write out file
-write_csv(gd,path="../data/processed/spleen-geno-pheno.csv",col_names=F,na="")
+# write_csv(gd,path="../data/processed/spleen-geno-pheno.csv",col_names=F,na="")
 
 ## remove mb positions
 gd <- filter(gd,id!="Mb")

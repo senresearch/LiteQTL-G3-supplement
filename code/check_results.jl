@@ -1,12 +1,12 @@
 using CSV
 
-rqtl_result = CSV.read("../data/results/rqtl_lod_score_spleen.csv", datarow=2)
+rqtl_result = CSV.read("../data/results/rqtl_lod_score_spleen.csv", datarow=2)[:, 2:end]
 #remove row name column. 
-rqtl_float = rqtl_result[:, 2:end] |> Matrix |> transpose
+rqtl_float = rqtl_result |> Matrix |> transpose
 # transform to float64
 # rqtl_float = convert(Array{Float64,2}, rqtl_result)
 julia_result = CSV.read("../data/results/lmgpu_spleen_output.csv", datarow=1)
-julia_float = convert(Array{Float64,2}, julia_result)
+julia_float = Matrix(julia_result)
 
 for j in size(rqtl_float)[2]
     for i in size(rqtl_float)[1]
