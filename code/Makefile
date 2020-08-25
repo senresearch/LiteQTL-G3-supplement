@@ -1,10 +1,8 @@
 all: getdata installlib cleandata rscan #compare
 .PHONY: all
 
-JULIA_NUM_THREADS=16 
-
 getdata:
-	# julia download-data.jl
+	julia download-data.jl
 
 installlib:
 	# Rscript rlibdep.R

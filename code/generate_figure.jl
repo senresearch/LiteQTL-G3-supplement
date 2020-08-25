@@ -70,5 +70,5 @@ fig[:autofmt_xdate](bottom=0.25,rotation=50,ha="right")
 #ax2.set_yticks([0., 0.5, 5.])
 ax2.set_aspect(aspect = "auto")
 
-savefig("/home/faragegr/Projects/Test/speedup.png", dpi= 300)
+savefig(joinpath(@__DIR__, "..", "figures", "gemm_speedup.png"), dpi= 300)
 #gcf() # Needed for IJulia to plot inline
