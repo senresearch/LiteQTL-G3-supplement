@@ -39,7 +39,8 @@ hip_geno_file = joinpath(@__DIR__, "..", "data", "processed", "bxd-genoprob_hipp
 hip_pheno_file = joinpath(@__DIR__, "..", "data","processed", "hippo-pheno-nomissing.csv")
 
 hip_output_file = "lmgpu_hippo_output.csv"
+# don't set hip_export_matrix to true because the result matrix can take too much space on disk. 
 hip_export_matrix = false
 
-main_scan(hip_geno_file, hip_pheno_file, spl_output_file, spl_export_matrix, Float64)
-main_scan(hip_geno_file, hip_pheno_file, spl_output_file, spl_export_matrix, Float32)
+main_scan(hip_geno_file, hip_pheno_file, hip_output_file, hip_export_matrix, Float64)
+main_scan(hip_geno_file, hip_pheno_file, hip_output_file, hip_export_matrix, Float32)
