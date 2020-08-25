@@ -1,83 +1,115 @@
-# This script is adapted from cleaningBXD.R
-# This script cleans phenotype and genotype data of bxd family
-
 
 ## load library
 library(tidyverse)
-
-print("reading geno and pheno... ")
-## read genotype file as character
-g <- read.csv("../data/raw/bxd.geno",sep="\t",skip=21,colClasses="character")
+library(data.table)
 
 ## read expression traits as character
-d <- read.csv(file="../data/raw/bxdhippo.txt",skip=32,sep="\t",colClasses="character")
 
+# > dim(pheno1)
+# [1] 1000798     108
+# > dim(pheno2)
+# [1] 356054    108
+# Warning message:
+# In fread(file = "../data/raw/bxdhippo.txt", skip = 32, sep = "\t",  :
+#   Stopped early on line 356089. Expected 108 fields but found 9. Consider fill=TRUE and comment.char=. First discarded non-empty line: <<4597261      Phr1    14      103.51306     105689  -       103.51306       103.513293      pam, highwire, rpm 1>>
+
+pheno <- read.csv(file="../data/raw/bxdhippo.txt",skip=32,
+              sep="\t",colClasses="character")
+
+# freadtime <- system.time({
+    # pheno2 <- fread(file="../data/raw/bxdhippo.txt",skip=32,
+    #           sep="\t",colClasses="character", fill=TRUE)
+# })
+
+## read genotype file as character
+geno <- read.csv("../data/raw/bxd.geno",sep="\t",skip=21,
+              colClasses="character")
 
 ########################
 ## expression traits
 ########################
-print("cleaning expression traits...")
-## select probeset column
-d0  <- select(d,"ProbeSet")
-## select BXD columns
-d1 <- select(d,matches("BXD"))
-## put probeset and BXD together
-d2  <- cbind(d0,d1)
-## get the names of each column
-d2names  <- names(d2)
 
+## select probeset column
+probeset  <- select(pheno,"ProbeSet")
+## select BXD columns
+pheno_bxd_cols <- select(pheno,matches("BXD"))
+## put probeset and BXD together
+chosenpheno  <- cbind(probeset,pheno_bxd_cols)
+## get the names of each column
+chosenphenonames  <- names(chosenpheno)
 
 ########################
 ## genotypes
 ########################
-print("cleaning BXD traits...")
+
 ## select marker information columns
-g0 <- select(g,one_of("Locus","Chr","cM","Mb"))
+gmap <- select(geno,one_of("Locus","Chr","cM","Mb"))
 ## select BXD columns
-g1 <- select(g,matches("BXD"))
+geno_bxd_cols <- select(geno,matches("BXD"))
 ## put together BXD and marker info
-g2  <- cbind(g0,g1)
+chosengeno  <- cbind(gmap,geno_bxd_cols)
 ## get the names of each column
-g2names  <- names(g2)
+chosengenonames  <- names(chosengeno)
 
 ######################
 ## putting genotype and traits together
 #####################
 
 ## transpose both genotype and expression data
-g3  <- as_tibble(t(g2))
-d3  <- as_tibble(t(d2))
-## create id columns for both datasets
-g3$id  <- g2names
-d3$id  <- d2names
+## make the first column the variable names of the tibble
+chosengeno_trans  <- t(chosengeno[,-1])
+colnames(chosengeno_trans) <- chosengeno[,1]
+chosengeno_tb <- as_tibble(chosengeno_trans)
+#
+chosenpheno_trans  <- t(chosenpheno[,-1])
+colnames(chosenpheno_trans)  <- chosenpheno[,1]
+chosenpheno_tb  <- as_tibble(chosenpheno_trans) 
 
-print("joining geno and pheno...")
+## create id columns for both datasets
+chosengeno_tb$id  <- chosengenonames[-1]
+chosenpheno_tb$id  <- chosenphenonames[-1]
+
 ## make a right join on id
 ## this will keep all the traits with genotypes
-gd <- right_join(d3,g3,"id")# The right join may take a day or two with one process running. Active CPU time is about 6 hours...
-## fill in probeset names
-gd[1,1:ncol(d3)] <- d3[1,]
-## create an extra ID column
-ID <- as.character(gd$id)
-## put that at the beginning of the data frame
-gd <- cbind(ID,gd)
-gd[,1] <- as.character(gd[,1])
-gd[1:4,1] <- c("ID",NA,NA,NA)
+genopheno <- right_join(chosenpheno_tb,chosengeno_tb,"id")
 
-print("writing out geno_pheno.csv...")
+## get the rows with the marker info; they don't start with "B"
+genophenoMkinfo <- filter(genopheno,!str_detect(id,"^B+."))
+## all other rows
+genophenoinfo <- filter(genopheno,str_detect(id,"^B+."))
+## bind rows and make tibble
+genopheno <- tibble(bind_rows(genophenoMkinfo,genophenoinfo))
+## sanitize the id column by getting rid of the marker info annotation
+genopheno$id[!str_detect(genopheno$id,"^B+.")] <- ""
+## make id the first column 
+genopheno <- relocate(genopheno,id,.before=1)
+
 ## write out file
-write_csv(gd,path="../data/processed/hippocampus-geno-pheno.csv",col_names=F,na="")
+# write_csv(genopheno,path="../data/processed/hippo-geno-pheno.csv",col_names=F,na="")
 
 ## remove mb positions
-gd <- gd[-4,]
-## remove id
-ididx <- which(names(gd)=="id")
-gd <- gd[,-ididx]
+genopheno <- filter(genopheno,id!="Mb")
 
-print("writing out hippocampus trait in rqtl format...")
+transposedf<-function(df){
+  library(data.table)
+#   rownames(df) <- df[,1]
+  t_df <- transpose(df)
+#   colnames(t_test) <- t_test[1, ]
+#   t_test <- t_test[-1, ]
+  rownames(t_df) <- colnames(df)
+  colnames(t_df) <- t_df[1, ] 
+
+  return(t_df[-1, ])
+}
+
+t_genopheno = transposedf(genopheno)
+
+
 ## write in R/qtl format
-write_csv(gd,path="../data/processed/hippocampus-geno-pheno-rqtl.csv",col_names=F,na="")
+# write_csv(gpdft,path="../data/processed/hippo-geno-pheno-rqtl.csv",col_names=F, na="")
+write_csv(t_genopheno,path="../data/processed/hippo-geno-pheno-rqtl.csv",col_names=F, na="")
 
-
+library(qtl)
 ## read in data in R/qtl
-# bxd <- read.cross(file="../data/processed/hippocampus-rqtl.csv",format="csv",crosstype="risib",genotypes=c("B","D"))
+bxd <- read.cross(file="../data/processed/hippo-geno-pheno-rqtl.csv",format="csvr",
+                  crosstype="risib",genotypes=c("B","D"))
