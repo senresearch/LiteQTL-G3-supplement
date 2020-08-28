@@ -1,4 +1,4 @@
-all: getdata installlib cleandata rscan #compare
+all: rscan juliascan compare
 .PHONY: all
 
 getdata:
@@ -12,7 +12,7 @@ installlib:
 
 cleandata:
 	Rscript clean-spleen-data.R
-	# Rscript clean-hippo-data.R # TODO: running this job on Bluff. Check on this later. 
+	Rscript clean-hippo-data.R # TODO: running this job on Bluff. Check on this later. 
 
 ############## NO LONGER NEEDED ###############
 # getgmap:
@@ -28,8 +28,8 @@ cleandata:
 
 rscan:
 	# running the scan will also generate geno prob and pheno no missing data file. 
-	Rscript Rqtl2scan_spleen.R
-	# Rscript Rqtl2scan_hippo.R
+	# Rscript Rqtl2scan_spleen.R
+	Rscript Rqtl2scan_hippo.R
 
 juliascan:
 	JULIA_NUM_THREADS=16 julia julia-genomescan.jl 

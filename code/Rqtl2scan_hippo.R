@@ -10,37 +10,15 @@ print("done read.cross. ")
 keepidx<-which(rowSums(is.na(bxd$pheno))<1000798)
 
 c1<-subset(bxd,ind=keepidx)
-# rownames(c1$pheno)<-c1$pheno$ID
-# c1$pheno<-c1$pheno[,-1]
-
-
-trait<-c1$pheno
-end<-dim(trait)[2]
+end<-dim(c1$pheno)[2]
 
  #check NAs
-# trait<-trait[,1:(end-1)]
-table(colSums(is.na(trait)))
-drop.idx<-which(colSums(is.na(trait))>0)
-trait<-trait[,-drop.idx]
-
-# transposedf<-function(df){
-#   library(data.table)
-#   t_df <- transpose(df)
-#   colnames(t_df) <- rownames(df)
-#   rownames(t_df) <- colnames(df)
-#   return(t_df)
-# }
-
-# transposedf<-function(df){
-#   library(data.table)
-#   t_df <- transpose(df)
-#   rownames(t_df) <- colnames(df)
-#   colnames(t_df) <- t_df[1, ] 
-#   return(t_df[-1, ])
-# }
+table(colSums(is.na(c1$pheno)))
+drop.idx<-which(colSums(is.na(c1$pheno))>0)
+c1$pheno<-c1$pheno[,-drop.idx]
 
 
-write.csv(t(trait), file="../data/processed/hippo-pheno-nomissing.csv", row.names=FALSE)
+write.csv(t(c1$pheno), file="../data/processed/hippo-pheno-nomissing.csv", row.names=FALSE)
 
 
 library(parallel)
@@ -57,8 +35,9 @@ prtime <- system.time({
 #     user   system  elapsed
 #   67.856 6154.076 2830.997
 
-# print("done calc genoprob")
-write.csv(pr, file="../data/processed/bxd-genoprob_hippo.csv", row.names=FALSE)
+print("done calc genoprob")
+write.csv(pr, file="../data/processed/hippo-bxd-genoprob.csv", row.names=FALSE)
+# if read in, length(pr) = 14642
 
 scantime <- system.time({
     out <- scan1(pr, cvt1$pheno, cores=1)
@@ -70,4 +49,8 @@ scantime <- system.time({
 print("Rqtl genome scan for hippocampus data took ", scantime)
 print("done scanning, printing out result...")
 
-write.csv(out,file="../data/results/rqtl_lod_score_hippo.csv", row.names=FALSE)
+library(Rfast)
+
+rowmaxidx = rowMaxs(out, value = FALSE)
+rowmaxval = rowMaxs(out, value = TRUE)
+write.csv(c(rowmaxidx, rowmaxval), file="../data/results/hippo_rqtl_lod_score.csv", row.names=FALSE)

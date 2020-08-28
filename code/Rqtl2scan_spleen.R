@@ -57,7 +57,7 @@ prtime <- system.time({
     pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=4)
 })
 
-write.csv(pr, file="../data/processed/bxd-genoprob_spleen.csv", row.names=FALSE)
+write.csv(pr, file="../data/processed/spleen-bxd-genoprob.csv", row.names=FALSE)
 
 scantime <- system.time({
     out <- scan1(pr, cvt1$pheno, cores=4)
@@ -72,5 +72,5 @@ scantime <- system.time({
 
 cat("Rqtl genome scan for spleen data took ", scantime)
 # This ran 56.461 seconds on imac pro (3 GHz Intel Xeon W)
-write.csv(out,file="../data/results/rqtl_lod_score_spleen.csv",row.names=FALSE)
+write.csv(out,file="../data/results/spleen_rqtl_lod_score.csv",row.names=FALSE)
 

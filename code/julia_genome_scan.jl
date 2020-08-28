@@ -21,26 +21,21 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     cpu_timing = @elapsed lod = LMGPU.cpurun(Y, G,n,export_matrix);
     println("CPU timing is $(cpu_timing) with $datatype")
     # write output to file
-    writedlm(joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * output_file), lod, ',')
+    writedlm(output_file, lod, ',')
 
 end
 
-spl_geno_file = joinpath(@__DIR__, "..", "data", "processed", "bxd-genoprob_hippo.csv")
-spl_pheno_file = joinpath(@__DIR__, "..", "data","processed", "hippo-pheno-nomissing.csv")
+for datatype in [Float64, Float32]
+    for dataset in ["spleen", "hippo"]
+# for datatype in [Float64]
+#     for dataset in ["hippo"]
+        geno_file = joinpath(@__DIR__, "..", "data", "processed", dataset*"-bxd-genoprob.csv")
+        pheno_file = joinpath(@__DIR__, "..", "data","processed", dataset*"-pheno-nomissing.csv")
 
-spl_output_file = "lmgpu_hippo_output.csv"
-spl_export_matrix = false
+        output_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_lmgpu_output.csv")
+        export_matrix = false
 
-main_scan(spl_geno_file, spl_pheno_file, spl_output_file, spl_export_matrix, Float64)
-main_scan(spl_geno_file, spl_pheno_file, spl_output_file, spl_export_matrix, Float32)
+        main_scan(geno_file, pheno_file, output_file, export_matrix, datatype)
+    end
+end
 
-
-hip_geno_file = joinpath(@__DIR__, "..", "data", "processed", "bxd-genoprob_hippo.csv")
-hip_pheno_file = joinpath(@__DIR__, "..", "data","processed", "hippo-pheno-nomissing.csv")
-
-hip_output_file = "lmgpu_hippo_output.csv"
-# don't set hip_export_matrix to true because the result matrix can take too much space on disk. 
-hip_export_matrix = false
-
-main_scan(hip_geno_file, hip_pheno_file, hip_output_file, hip_export_matrix, Float64)
-main_scan(hip_geno_file, hip_pheno_file, hip_output_file, hip_export_matrix, Float32)

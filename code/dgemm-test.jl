@@ -1,7 +1,6 @@
 using CUDA
 # using CuArrays
 using Base
-using BenchmarkTools
 using LinearAlgebra
 using Dates
 using Random
