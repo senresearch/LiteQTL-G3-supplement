@@ -103,16 +103,16 @@ reorgdata<-function(genofile, phenofile, outputfile){
 }
 
 # running genome scan for spleen data. 
-genofile <- "../data/raw/bxdspleen.txt"
-phenofile <- "../data/raw/bxd.geno"
+genofile <- "../data/raw/bxd.geno" 
+phenofile <- "../data/raw/bxdspleen.txt"
 outputfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
 
 reorgdata(genofile, phenofile, outputfile)
 
 
 # running genome scan for hippocampus data. 
-genofile <- "../data/raw/bxdhippo.txt"
-phenofile <- "../data/raw/bxd.geno"
+genofile <- "../data/raw/bxd.geno"
+phenofile <- "../data/raw/bxdhippo.txt"
 outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 
 reorgdata(genofile, phenofile, outputfile)

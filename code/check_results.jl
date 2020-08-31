@@ -1,18 +1,23 @@
-
-
 using CSV
 using DataFrames
 
-function check_results(rqtl_result::DataFrame, julia_result::DataFrame)
+function check_results(rqtl_result::DataFrame, julia_result::DataFrame; maxlod = true)
     #remove row name column. 
-    rqtl_float = rqtl_result |> Matrix |> transpose |> collect
-    rqtl_max = find_max_idx_value(rqtl_float)
+    if maxlod 
+        rqtl_max = Matrix(rqtl_result)
+        julia_max = Matrix(julia_result)
+    else 
+        rqtl_float = rqtl_result |> Matrix |> transpose |> collect
+        rqtl_max = find_max_idx_value(rqtl_float)
 
-    julia_max = Matrix(julia_result)
+        julia_float = julia_result |> Matrix 
+        julia_max = find_max_idx_value(julia_float)
+    end
+
     for i in size(julia_max)[1]
         # compare value first 
         if !isapprox(rqtl_max[i,2], julia_max[i,2], atol=1e-5)
-            error("Scan result does not agree at [$i,$j], rqtl: $(rqtl_max[i,2]), julia: $(julia_max[i,2])")
+            error("Scan result does not agree at row:$i, rqtl: $(rqtl_max[i,2]), julia: $(julia_max[i,2])")
             return;
         end
 
@@ -22,9 +27,7 @@ function check_results(rqtl_result::DataFrame, julia_result::DataFrame)
         end
 
     end
-
-
-    return "Scan result agrees. "
+    println("Result check finished. ")
 end
 
 
@@ -62,6 +65,7 @@ end
 
 for datatype in [Float64, Float32]
     for dataset in ["spleen", "hippo"]
+        println("Checking result for $dataset")
         rqtl_result_file = joinpath(Base.@__DIR__, "..", "data", "results", dataset*"_rqtl_lod_score.csv")
         julia_result_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_lmgpu_output.csv")
         
