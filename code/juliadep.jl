@@ -2,7 +2,7 @@ using Pkg
 
 lmgpu_githubloc = "https://github.com/senresearch/LMGPU.jl"
 
-packages=["DelimitedFiles", "Statistics", "CSV", "DataFrames", "PyCall", "PyPlot", "LMGPU", "CUDA"]
+packages=["DelimitedFiles", "Statistics", "CSV", "DataFrames", "PyCall", "PyPlot", "LMGPU"]#, "CUDA"]
 
 installed=Pkg.installed()
 

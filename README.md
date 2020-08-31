@@ -1,5 +1,10 @@
 This repository contains code that reproduces results from paper: [Speeding up eQTL scans in the BXD population using GPUs](https://www.biorxiv.org/content/10.1101/2020.06.22.153742v1.full.pdf)
 
+- Dependencies:
+- Julia v1.5.0 
+- R v4.0.2
+- CUDA v10 
+
 This repository is organized as follow:
 - code: This folder contains all necessary scripts to regenerate results from the paper, which includes a) downloading dataset used in the paper and put it in `data` folder, b) get dependency R and Julia packages, c) clean and prepare data for genome scan, d) run genome scan. 
 
@@ -21,7 +26,8 @@ you can run `make getdata` to download data.
 - Hippocampus (citation)
 
 Data cleaning scripts:
-- Dependencies: mice, r/qtl (citation), r/qtl2 (citation), tidyverse
+- Dependencies: tidyverse, mice, parallel, qtl (citation), qtl2 (citation)
+
 
 Comparison:
 - gemma (citation)
