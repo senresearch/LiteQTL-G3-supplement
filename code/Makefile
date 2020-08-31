@@ -24,3 +24,4 @@ gemm:
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl
 	julia generate_figure.jl
 
+ 
