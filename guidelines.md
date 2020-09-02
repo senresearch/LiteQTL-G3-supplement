@@ -17,4 +17,3 @@
 
 README.md ( what is in the repo and how to get to results shown in paper)
 
-### How to write your Makefile.

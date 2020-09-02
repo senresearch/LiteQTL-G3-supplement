@@ -1,4 +1,4 @@
-all: installlib getdata cleandata rscan juliascan compare 
+all: installlib installcuda getdata cleandata rscan juliascan compare 
 nogpu: installlib getdata cleandata rscan juliascan gpuscan compare gemm
 
 .PHONY: all
@@ -6,6 +6,9 @@ nogpu: installlib getdata cleandata rscan juliascan gpuscan compare gemm
 installlib:
 	Rscript rlibdep.R
 	julia juliadep.jl
+
+installcuda:
+	julia installcuda.jl
 
 getdata:
 	julia download-data.jl

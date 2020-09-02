@@ -20,17 +20,41 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
 
     # running analysis.
-    lod = LMGPU.cpurun(Y, G,n,maxlod);
-    timing = benchmark(10, LMGPU.cpurun, Y, G,n,maxlod)
-    println("CPU timing: $(timing[3]) with $datatype")
-    # write output to file
-    writedlm(output_file, lod, ',')
+    lodgpu = LMGPU.gpurun(Y, G,n);
+    lodcpu = LMGPU.cpurun(Y, G,n,true);
 
+    if all(isapprox.(lodgpu[:,2], lodcpu[:, 2]; atol = 1e-5))
+        println("results agree")
+        if all(isapprox.(lodgpu[:,1], lodcpu[:, 1]; atol = 4))
+            println("index agree too. ")
+        else
+            println("Index don't agree. ")
+            tol = 3
+            num_disagree = sum(.!isapprox.(lodgpu[:,1], lodcpu[:, 1]; atol = tol))
+            
+            for i in 1:size(lodgpu)[1]
+                if !isapprox(lodgpu[i,1], lodcpu[i, 1]; atol = tol)
+                    println("Index doens't agree at $i:  $(lodgpu[i,1]), $(lodcpu[i, 1])")
+                end
+            end
+            println("There are $num_disagree index don't agree.")
+        end
+    else 
+        println("error in gpu reuslt checking!")
+    end
+
+    gtiming = benchmark(10, LMGPU.gpurun, Y, G,n)
+    # ctiming = benchmark(10, LMGPU.cpurun, Y, G,n,true)
+    println(" GPU timing: $(gtiming[3]) with $datatype, $(size(lodgpu))")
+    # CPU timing: 21.826452687, GPU timing: 0.3058343105 with Float64, (35554, 2)
+    
+    # write output to file
+    writedlm(output_file, lodgpu, ',')
 end
 
 
-for datatype in [Float64, Float32]
-    for dataset in ["spleen", "hippo"]
+for datatype in [Float64]#, Float32]
+    for dataset in ["spleen"]#, "hippo"]
 # for datatype in [Float64]
 #     for dataset in ["hippo"]
         println("Julia Genome Scan for $dataset")
