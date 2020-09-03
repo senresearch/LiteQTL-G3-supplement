@@ -56,10 +56,10 @@ maxlod = TRUE
 scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
 
-rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
-cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
-genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
-rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
-maxlod = TRUE 
+# rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
+# cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
+# genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
+# rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
+# maxlod = TRUE 
 
-scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
+# scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)

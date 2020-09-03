@@ -29,8 +29,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
 end
 
 
-for datatype in [Float64, Float32]
-    for dataset in ["spleen", "hippo"]
+for datatype in [Float64]#, Float32]
+    for dataset in ["spleen"]#, "hippo"]
 # for datatype in [Float64]
 #     for dataset in ["hippo"]
         println("Julia Genome Scan for $dataset")
