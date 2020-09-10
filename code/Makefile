@@ -31,6 +31,6 @@ compare:
 	julia check_results.jl 2>&1 | tee ../log/compare.log
 gemm: 
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl 2>&1 | tee ../log/gemm.log
-	julia generate_figure.jl 2>&1 | tee ../log/gemm.log
+	julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
 
  
