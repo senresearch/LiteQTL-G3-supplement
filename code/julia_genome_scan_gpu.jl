@@ -16,7 +16,7 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     n = size(Y,1)
     m = size(Y,2)
     p = size(G,2)
-    println("******* Indivuduals n: $n, Traits m: $m, Markers p: $p ****************");
+    println("******* Individuals n: $n, Traits m: $m, Markers p: $p ****************");
     # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
 
     # running analysis.

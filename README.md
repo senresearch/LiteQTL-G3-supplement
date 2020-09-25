@@ -1,5 +1,6 @@
 This repository contains code that reproduces results from paper: [Speeding up eQTL scans in the BXD population using GPUs](https://www.biorxiv.org/content/10.1101/2020.06.22.153742v1.full.pdf)
 
+- memory requirement: running the hippocampus data requires 81 GB of RAM. 
 - Dependencies:
   - CUDA v10 
     - It is not necessary to have CUDA installed. There is a version that will run without access to CUDA. However, if you would like to see the timing comparison between CPU and GPU runs, Nvidia GPU is required, as well as CUDA library. Installation of CUDA library is not included in this README. Please refer to [Nvidia website](https://docs.nvidia.com/cuda/index.html) for guide to install CUDA library based on your operating system. 
