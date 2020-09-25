@@ -53,10 +53,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
 end
 
 
-for datatype in [Float64]#, Float32]
-    for dataset in ["spleen"]#, "hippo"]
-# for datatype in [Float64]
-#     for dataset in ["hippo"]
+for datatype in [Float64, Float32]
+    for dataset in ["spleen", "hippo"]
         println("Julia Genome Scan for $dataset")
         geno_file = joinpath(@__DIR__, "..", "data", "processed", dataset*"-bxd-genoprob.csv")
         pheno_file = joinpath(@__DIR__, "..", "data","processed", dataset*"-pheno-nomissing.csv")
@@ -67,4 +65,5 @@ for datatype in [Float64]#, Float32]
         res = main_scan(geno_file, pheno_file, output_file, maxlod, datatype)
     end
 end
+
 

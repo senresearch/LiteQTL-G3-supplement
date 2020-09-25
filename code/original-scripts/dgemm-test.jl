@@ -3,7 +3,7 @@ using Base
 using BenchmarkTools
 using LinearAlgebra
 
-include("../src/benchmark.jl")
+include("../benchmark.jl")
 
 const alf = 1.0
 const bet = 0.0

@@ -31,20 +31,6 @@ function check_results(rqtl_result::DataFrame, julia_result::DataFrame; maxlod =
 end
 
 
-# function check_results(rqtl_result::AbstractString, julia_result::AbstractString)
-#     #remove row name column. 
-#     rqtl_float = rqtl_result |> Matrix |> transpose
-#     julia_float = Matrix(julia_result)
-#     for j in size(rqtl_float)[2]
-#         for i in size(rqtl_float)[1]
-#             if !isapprox(rqtl_float[i,j], julia_float[i,j], atol=1e-5)
-#                 error("Scan result does not agree at [$i,$j], rqtl: $(rqtl_float[i,j]), julia: $(julia_float[i,j])")
-#                 return;
-#             end
-#         end
-#     end
-#     return "Scan result agrees. "
-# end
 function find_max_idx_value(lod::AbstractArray{<:Real,2})
     max_array = Array{typeof(lod[1,1]),2}(undef, size(lod)[1], 2)
     Threads.@threads for i in 1:size(lod)[1]

@@ -13,6 +13,6 @@ for p in packages
         Pkg.add(url=lmgpu_githubloc)
     else 
         Pkg.add(p)
-    end
+    end`
 
 end
