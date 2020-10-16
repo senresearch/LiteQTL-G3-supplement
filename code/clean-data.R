@@ -111,9 +111,9 @@ reorgdata(genofile, phenofile, outputfile)
 
 
 # running genome scan for hippocampus data. 
-# genofile <- "../data/raw/bxd.geno"
-# phenofile <- "../data/raw/bxdhippo.txt"
-# outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
+genofile <- "../data/raw/bxd.geno"
+phenofile <- "../data/raw/bxdhippo.txt"
+outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 
-# reorgdata(genofile, phenofile, outputfile)
+reorgdata(genofile, phenofile, outputfile)
 

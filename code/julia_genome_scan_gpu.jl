@@ -23,14 +23,15 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     lodgpu = LMGPU.gpurun(Y, G,n);
     lodcpu = LMGPU.cpurun(Y, G,n,true);
 
-    if all(isapprox.(lodgpu[:,2], lodcpu[:, 2]; atol = 1e-5))
+    if all(isapprox.(lodgpu[:,2], lodcpu[:, 2]; atol = 1e-3))
         println("results agree")
         if all(isapprox.(lodgpu[:,1], lodcpu[:, 1]; atol = 4))
             println("index agree too. ")
         else
-            println("Index don't agree. ")
+            
             tol = 3
             num_disagree = sum(.!isapprox.(lodgpu[:,1], lodcpu[:, 1]; atol = tol))
+            println("$num_disagree number of indices don't agree. ")
             
             # for i in 1:size(lodgpu)[1]
             #     if !isapprox(lodgpu[i,1], lodcpu[i, 1]; atol = tol)

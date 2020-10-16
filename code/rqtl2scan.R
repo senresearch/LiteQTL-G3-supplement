@@ -19,18 +19,20 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
     cvt1<-convert2cross2(c1)
     map <- insert_pseudomarkers(cvt1$gmap, step=0)
     prtime <- system.time({
-        pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=4)
+        pr <- calc_genoprob(cvt1, map, error_prob=0.002, cores=1)
     })
-
+    print("Calculating genoprob took: ")
+    print(prtime)
 
     print("done calc genoprob")
     write.csv(pr, file=genoprobfile, row.names=FALSE)
 
     scantime <- system.time({
-        out <- scan1(pr, cvt1$pheno, cores=1)
+        out <- scan1(pr, cvt1$pheno, cores=16)
     })
 
-    print(paste("Rqtl genome scan took ", scantime))
+    print("Rqtl genome scan took: ")
+    print(scantime)
 
     if (maxlod) {
         colmaxval = c()
@@ -47,13 +49,13 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
 }
 
-rqtlfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
-cleanphenofile <- "../data/processed/spleen-pheno-nomissing.csv"
-genoprobfile <- "../data/processed/spleen-bxd-genoprob.csv"
-rqtlresultfile <- "../data/results/spleen_rqtl_lod_score.csv"
-maxlod = TRUE
+# rqtlfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
+# cleanphenofile <- "../data/processed/spleen-pheno-nomissing.csv"
+# genoprobfile <- "../data/processed/spleen-bxd-genoprob.csv"
+# rqtlresultfile <- "../data/results/spleen_rqtl_lod_score.csv"
+# maxlod = TRUE
 
-scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
+# scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
 
 rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
