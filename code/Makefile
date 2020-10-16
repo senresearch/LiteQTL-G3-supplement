@@ -1,5 +1,5 @@
-all: installlib installcuda getdata cleandata rscan juliascan compare 
-nogpu: installlib getdata cleandata rscan juliascan gpuscan compare gemm
+all: installlib installcuda getdata cleandata rscan juliascan gpuscan compare gemm
+nogpu: installlib getdata cleandata rscan juliascan compare
 
 .PHONY: all
 
@@ -31,6 +31,6 @@ compare:
 	julia check_results.jl 2>&1 | tee ../log/compare.log
 gemm: 
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl 2>&1 | tee ../log/gemm.log
-	julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
+	LD_PRELOAD=/home/xiaoqihu/.julia/conda/3/lib/libz.so julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
 
  
