@@ -75,14 +75,19 @@ for t in thread_counts
                     println("GPU took $(gpuelapsed) s to run")
 
 
-                    cpu_result = benchmark(10, cpu_run, A,B,C)
-                    gpu_result = benchmark(10, gpu_run,A,B,C)
+                    cpu_result = benchmark(20, cpu_run, A,B,C)
+                    gpu_result = benchmark(20, gpu_run,A,B,C)
                     speedup = cpu_result[3]/gpu_result[3]
                     println(cpu_result)
                     println(gpu_result)
 
                     write(file, "$m,$n,$p,$req_mem_gb,$avail_mem_gb,$(cpu_result[3]),$(gpu_result[3]),$speedup\n");
                     close(file)
+
+                    A = nothing 
+                    B = nothing
+                    C = nothing 
+                    GC.gc(true)
                 end
             end
         end
