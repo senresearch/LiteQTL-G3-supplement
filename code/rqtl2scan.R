@@ -49,14 +49,17 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
 }
 
-# rqtlfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
-# cleanphenofile <- "../data/processed/spleen-pheno-nomissing.csv"
-# genoprobfile <- "../data/processed/spleen-bxd-genoprob.csv"
-# rqtlresultfile <- "../data/results/spleen_rqtl_lod_score.csv"
-# maxlod = TRUE
+# Run scan for spleen data. 
 
-# scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
+rqtlfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
+cleanphenofile <- "../data/processed/spleen-pheno-nomissing.csv"
+genoprobfile <- "../data/processed/spleen-bxd-genoprob.csv"
+rqtlresultfile <- "../data/results/spleen_rqtl_lod_score.csv"
+maxlod = TRUE
 
+scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
+
+## Run scan for spleen data. 
 
 rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"

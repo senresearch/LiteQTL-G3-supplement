@@ -24,13 +24,12 @@ rscan:
 
 juliascan:
 	JULIA_NUM_THREADS=16 julia julia_genome_scan.jl 2>&1 | tee ../log/juliascan.log
-	# runs abount 2 seconds  for max lod and float64 on my home imac 
 gpuscan: 
 	JULIA_NUM_THREADS=16 julia julia_genome_scan_gpu.jl 2>&1 | tee ../log/gpuscan.log
 compare:
 	julia check_results.jl 2>&1 | tee ../log/compare.log
 gemm: 
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl 2>&1 | tee ../log/gemm.log
-	LD_PRELOAD=/home/xiaoqihu/.julia/conda/3/lib/libz.so julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
+	julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
 
  

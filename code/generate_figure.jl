@@ -3,9 +3,9 @@
 using DataFrames, CSV
 using Statistics
 
-using PyCall
-pygui(:tk)
-using PyPlot
+# using PyCall
+# pygui(:tk)
+# using PyPlot
 
 
 

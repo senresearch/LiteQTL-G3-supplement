@@ -3,16 +3,6 @@
 library(tidyverse)
 library(data.table)
 
-## read expression traits as character
-
-# > dim(pheno1)
-# [1] 1000798     108
-# > dim(pheno2)
-# [1] 356054    108
-# Warning message:
-# In fread(file = "../data/raw/bxdhippo.txt", skip = 32, sep = "\t",  :
-#   Stopped early on line 356089. Expected 108 fields but found 9. Consider fill=TRUE and comment.char=. First discarded non-empty line: <<4597261      Phr1    14      103.51306     105689  -       103.51306       103.513293      pam, highwire, rpm 1>>
-
 reorgdata<-function(genofile, phenofile, outputfile){
 
   pheno <- read.csv(phenofile,skip=32,
