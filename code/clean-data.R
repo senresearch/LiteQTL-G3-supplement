@@ -7,11 +7,12 @@ reorgdata<-function(genofile, phenofile, outputfile){
 
   pheno <- read.csv(phenofile,skip=32,
                 sep="\t",colClasses="character")
-
+  print("Done reading phenotype. ")
+  
   ## read genotype file as character
   geno <- read.csv(genofile,sep="\t",skip=21,
                 colClasses="character")
-
+  print("Done reading genotype. ")
 
   ########################
   ## expression traits
@@ -25,7 +26,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
   chosenpheno  <- cbind(probeset,pheno_bxd_cols)
   ## get the names of each column
   chosenphenonames  <- names(chosenpheno)
-
+  print("Done subsetting phenotype. ")
   ########################
   ## genotypes
   ########################
@@ -38,7 +39,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
   chosengeno  <- cbind(gmap,geno_bxd_cols)
   ## get the names of each column
   chosengenonames  <- names(chosengeno)
-
+  print("Done subsetting Genotype. ")
   ######################
   ## putting genotype and traits together
   #####################
@@ -48,18 +49,23 @@ reorgdata<-function(genofile, phenofile, outputfile){
   chosengeno_trans  <- t(chosengeno[,-1])
   colnames(chosengeno_trans) <- chosengeno[,1]
   chosengeno_tb <- as_tibble(chosengeno_trans)
+  print("Trsnsposed geno...")
   #
   chosenpheno_trans  <- t(chosenpheno[,-1])
   colnames(chosenpheno_trans)  <- chosenpheno[,1]
   chosenpheno_tb  <- as_tibble(chosenpheno_trans) 
+  print("Transposed pheno...")
 
   ## create id columns for both datasets
   chosengeno_tb$id  <- chosengenonames[-1]
   chosenpheno_tb$id  <- chosenphenonames[-1]
+  print("Added ID column.")
 
   ## make a right join on id
   ## this will keep all the traits with genotypes
+  print("Begining right join pheno and geno...")
   genopheno <- right_join(chosenpheno_tb,chosengeno_tb,"id")
+  print("Done right join.")
 
   ## get the rows with the marker info; they don't start with "B"
   genophenoMkinfo <- filter(genopheno,!str_detect(id,"^B+."))
@@ -89,6 +95,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
 
   t_genopheno = transposedf(genopheno)
   ## write in R/qtl format
+  print("Writing out geno and pheno in rqtl format...")
   write_csv(cbind(rownames(t_genopheno), t_genopheno),file=outputfile,col_names=F, na="")
 }
 
@@ -100,10 +107,10 @@ outputfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
 reorgdata(genofile, phenofile, outputfile)
 
 
-# running genome scan for hippocampus data. 
-genofile <- "../data/raw/bxd.geno"
-phenofile <- "../data/raw/bxdhippo.txt"
-outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
+# # running genome scan for hippocampus data. 
+# genofile <- "../data/raw/bxd.geno"
+# phenofile <- "../data/raw/bxdhippo.txt"
+# outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 
-reorgdata(genofile, phenofile, outputfile)
+# reorgdata(genofile, phenofile, outputfile)
 

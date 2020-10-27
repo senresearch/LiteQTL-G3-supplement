@@ -11,7 +11,7 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     LMGPU.set_blas_threads(16);
     # Read in data.
     G = LMGPU.get_geno_data(geno_file,datatype)
-    Y = LMGPU.get_pheno_data(pheno_file,datatype, transposed=true)
+    Y = LMGPU.get_pheno_data(pheno_file,datatype, transposed=false)
     # getting geno and pheno file size.
     n = size(Y,1)
     m = size(Y,2)
