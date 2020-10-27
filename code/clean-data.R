@@ -96,7 +96,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
   t_genopheno = transposedf(genopheno)
   ## write in R/qtl format
   print("Writing out geno and pheno in rqtl format...")
-  write_csv(cbind(rownames(t_genopheno), t_genopheno),file=outputfile,col_names=F, na="")
+  write_csv(cbind(rownames(t_genopheno), t_genopheno),path=outputfile,col_names=F, na="")
 }
 
 # running genome scan for spleen data. 
