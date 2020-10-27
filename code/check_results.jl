@@ -17,7 +17,7 @@ function check_results(rqtl_result::DataFrame, julia_result::DataFrame; maxlod =
     for i in size(julia_max)[1]
         # compare value first 
         if !isapprox(rqtl_max[i,2], julia_max[i,2], atol=1e-5)
-            error("Scan result does not agree at row:$i, rqtl: $(rqtl_max[i,2]), julia: $(julia_max[i,2])")
+            @info "Scan result does not agree at row:$i, rqtl: $(rqtl_max[i,2]), julia: $(julia_max[i,2])"
             return;
         end
 
