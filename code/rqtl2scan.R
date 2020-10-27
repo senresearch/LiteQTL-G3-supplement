@@ -12,7 +12,7 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
     table(colSums(is.na(c1$pheno)))
     drop.idx<-which(colSums(is.na(c1$pheno))>0)
     c1$pheno<-c1$pheno[,-drop.idx]
-    write.csv(t(c1$pheno), file=cleanphenofile, row.names=FALSE)
+    write.csv(c1$pheno, file=cleanphenofile, row.names=TRUE)
 
     library(parallel)
     library(qtl2)
@@ -59,12 +59,12 @@ maxlod = TRUE
 
 scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
-## Run scan for spleen data. 
+## Run scan for hippo data. 
 
-rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
-cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
-genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
-rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
-maxlod = TRUE 
+# rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
+# cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
+# genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
+# rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
+# maxlod = TRUE 
 
 scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)

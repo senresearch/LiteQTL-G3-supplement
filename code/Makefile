@@ -1,5 +1,6 @@
 all: installlib installcuda getdata cleandata rscan juliascan gpuscan compare gemm
 nogpu: installlib getdata cleandata rscan juliascan compare
+karltest: getdata cleandata rscan
 
 .PHONY: all
 
@@ -32,4 +33,4 @@ gemm:
 	JULIA_NUM_THREADS=16 julia dgemm-test.jl 2>&1 | tee ../log/gemm.log
 	julia generate_figure.jl 2>&1 | tee -a ../log/gemm.log
 
- 
+
