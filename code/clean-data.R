@@ -74,7 +74,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
   ## bind rows and make tibble
   genopheno <- tibble(bind_rows(genophenoMkinfo,genophenoinfo))
   ## sanitize the id column by getting rid of the marker info annotation
-  genopheno$id[!str_detect(genopheno$id,"^B+.")] <- ""
+#  genopheno$id[!str_detect(genopheno$id,"^B+.")] <- ""
   ## make id the first column 
   genopheno <- relocate(genopheno,id,.before=1)
 
@@ -95,8 +95,8 @@ reorgdata<-function(genofile, phenofile, outputfile){
 
   t_genopheno = transposedf(genopheno)
   ## write in R/qtl format
-  print("Writing out geno and pheno in rqtl forma...")
-  write_csv(t_genopheno,path=outputfile,col_names=F, na="")
+  print("Writing out geno and pheno in rqtl format...")
+  write_csv(cbind(rownames(t_genopheno), t_genopheno),file=outputfile,col_names=F, na="")
 }
 
 # running genome scan for spleen data. 
