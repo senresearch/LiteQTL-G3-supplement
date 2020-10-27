@@ -59,7 +59,7 @@ maxlod = TRUE
 
 scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
-## Run scan for spleen data. 
+## Run scan for hippo data. 
 
 rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
