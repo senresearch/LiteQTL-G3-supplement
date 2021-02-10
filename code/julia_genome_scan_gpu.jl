@@ -1,6 +1,6 @@
 # This code is adapted from code/original-scripts/spleen-analysis.jl 
 
-using LMGPU
+using LiteQTL
 using DelimitedFiles
 
 include("benchmark.jl")
@@ -8,10 +8,10 @@ include("benchmark.jl")
 function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output_file::AbstractString, maxlod::Bool, datatype::DataType)
 
 
-    LMGPU.set_blas_threads(16);
+    LiteQTL.set_blas_threads(16);
     # Read in data.
-    G = LMGPU.get_geno_data(geno_file,datatype)
-    Y = LMGPU.get_pheno_data(pheno_file,datatype, transposed=true)
+    G = LiteQTL.get_geno_data(geno_file,datatype)
+    Y = LiteQTL.get_pheno_data(pheno_file,datatype, transposed=true)
     # getting geno and pheno file size.
     n = size(Y,1)
     m = size(Y,2)
@@ -20,8 +20,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
 
     # running analysis.
-    lodgpu = LMGPU.gpurun(Y, G,n);
-    lodcpu = LMGPU.cpurun(Y, G,n,true);
+    lodgpu = LiteQTL.gpurun(Y, G,n);
+    lodcpu = LiteQTL.cpurun(Y, G,n,true);
 
     if all(isapprox.(lodgpu[:,2], lodcpu[:, 2]; atol = 1e-3))
         println("results agree")
@@ -44,8 +44,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
         println("error in gpu reuslt checking!")
     end
 
-    gtiming = benchmark(10, LMGPU.gpurun, Y, G,n)
-    ctiming = benchmark(10, LMGPU.cpurun, Y, G,n,true)
+    gtiming = benchmark(10, LiteQTL.gpurun, Y, G,n)
+    ctiming = benchmark(10, LiteQTL.cpurun, Y, G,n,true)
     println("CPU timing: $(ctiming[3]) GPU timing: $(gtiming[3]) with $datatype, $(size(lodgpu))")
     # CPU timing: 21.826452687, GPU timing: 0.3058343105 with Float64, (35554, 2)
     
@@ -60,7 +60,7 @@ for datatype in [Float64, Float32]
         geno_file = joinpath(@__DIR__, "..", "data", "processed", dataset*"-bxd-genoprob.csv")
         pheno_file = joinpath(@__DIR__, "..", "data","processed", dataset*"-pheno-nomissing.csv")
 
-        output_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_lmgpu_output.csv")
+        output_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_LiteQTL_output.csv")
         maxlod = true # same as maxlod = true
 
         res = main_scan(geno_file, pheno_file, output_file, maxlod, datatype)

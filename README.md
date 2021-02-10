@@ -5,13 +5,13 @@ This repository contains code that reproduces results from paper: [Speeding up e
   - CUDA v10 
     - It is not necessary to have CUDA installed. There is a version that will run without access to CUDA. However, if you would like to see the timing comparison between CPU and GPU runs, Nvidia GPU is required, as well as CUDA library. Installation of CUDA library is not included in this README. Please refer to [Nvidia website](https://docs.nvidia.com/cuda/index.html) for guide to install CUDA library based on your operating system. 
   - Julia v1.4.0 
-    - Julia packages: DelimitedFiles, Statistics, DataFrames, CSV, PyCall, PyPlot, LinearAlgebra, Random, Dates, CUDA, LMGPU
+    - Julia packages: DelimitedFiles, Statistics, DataFrames, CSV, PyCall, PyPlot, LinearAlgebra, Random, Dates, CUDA, LiteQTL
   - R v4.0.2
     - R packages: tidyverse,qtl,mice,tictoc,qtl2, parallel  
 
 
-How to run LMGPU:  
-- In your terminal, if you are at the the current repository of `LMGPU-G3-supplement`, type `cd code`  
+How to run LiteQTL:  
+- In your terminal, if you are at the the current repository of `LiteQTL-G3-supplement`, type `cd code`  
 - If you have CUDA library installed on your machine, and would like to see the comparison between cpu runs and gpu runs, type `make all`. This command will 
   - install R and Julia dependency packages
   - download BXD dataset (including spleen and hippocampus phenotype data, and genotype data from genenetwork.org
@@ -31,7 +31,7 @@ This repository is organized as follow:
 - figures: generated figures will be placed here. 
 
 
-[LMGPU](https://github.com/ChelseaTrotter/LMGPU.jl) is a julia package that uses GPU to accelerate eQTL genome scan using linear model.
+[LiteQTL](https://github.com/ChelseaTrotter/LiteQTL.jl) is a julia package that uses GPU to accelerate eQTL genome scan using linear model.
 
 
 Dataset:

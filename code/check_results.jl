@@ -32,20 +32,11 @@ end
 
 
 function find_max_idx_value(lod::AbstractArray{<:Real,2})
-    max_array = Array{typeof(lod[1,1]),2}(undef, size(lod)[1], 2)
-    Threads.@threads for i in 1:size(lod)[1]
-        temp = lod[i, 1]
-        idx = 1
-        for j in 2:size(lod)[2]
-            if temp < lod[i,j]
-                temp = lod[i,j]
-                idx = j
-            end
-        end
-        max_array[i,1] = idx
-        max_array[i,2] = temp
-    end
-    return max_array
+    res = findmax(lod)
+    max = res[1]
+    maxidx = getindex.(res[2],1)
+   
+    return  hcat(max, maxidx)
 end
 
 
@@ -53,7 +44,7 @@ for datatype in [Float64, Float32]
     for dataset in ["spleen", "hippo"]
         println("Checking result for $dataset")
         rqtl_result_file = joinpath(Base.@__DIR__, "..", "data", "results", dataset*"_rqtl_lod_score.csv")
-        julia_result_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_lmgpu_output.csv")
+        julia_result_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_LiteQTL_output.csv")
         
         rqtl_result =  CSV.read(rqtl_result_file, datarow=2)
         julia_result = CSV.read(julia_result_file, datarow=1)

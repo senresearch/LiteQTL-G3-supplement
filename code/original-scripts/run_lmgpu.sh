@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Assuming you are in LMGPU directory
+# Assuming you are in LiteQTL directory
 
 
 geno_file="../data/cleandata/geno_prob.csv"
