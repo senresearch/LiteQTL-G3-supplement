@@ -1,9 +1,10 @@
 library(stringr)
 library(parallel)
 library(data.table)
+library(rres)
 
 
-datacleaning <- function(genotypefile, phenotype){
+datacleaning <- function(genotypefile, phenotypefile){
     print("Reading in genotype...")
     geno = fread(genotypefile)
     # > geno[1:5, 1:5]
@@ -47,6 +48,10 @@ datacleaning <- function(genotypefile, phenotype){
     geno <- cbind(geno$snp, chr, geno[,2:dim(geno)[2]])
     colnames(geno)[1:2] = c("ID", "")
     fwrite(geno, file="cleangeno.csv", row.names=FALSE)
-
-
 }
+
+genotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.bed"
+phenotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed"
+
+# datacleaning(genotypefile, phenotypefile)
+
