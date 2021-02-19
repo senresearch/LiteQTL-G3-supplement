@@ -47,11 +47,16 @@ datacleaning <- function(genotypefile, phenotypefile){
     # recombine the genotype. 
     geno <- cbind(geno$snp, chr, geno[,2:dim(geno)[2]])
     colnames(geno)[1:2] = c("ID", "")
-    fwrite(geno, file="cleangeno.csv", row.names=FALSE)
+    
+    fwrite(geno, file="chr9.csv", row.names=FALSE)
 }
 
-genotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.bed"
+genotypefile = "../../data/tensorqtldata/genotype.ped"
 phenotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed"
 
-# datacleaning(genotypefile, phenotypefile)
+datacleaning(genotypefile, phenotypefile)
+
+
+
+
 

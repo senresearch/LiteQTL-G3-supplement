@@ -14,8 +14,9 @@ unzip_pheno:
 
 plink2csv:
 	# download plink software
-	wget https://zzz.bwh.harvard.edu/plink/dist/plink-1.07-x86_64.zip  --no-check-certificate
-	unzip plink-1.07-x86_64.zip
-	./plink-1.07-x86_64/plink --noweb --bfile ../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.bed --recode --tab --out genotype.csv
-
+	# wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20201019.zip  --no-check-certificate
+	# unzip plink*
+	./plink --bfile ../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup --recode --out ../../data/tensorqtldata/genotypetest
 clean_data: 
+	Rscript clean_data.Rscript
+
