@@ -47,8 +47,10 @@ datacleaning <- function(genotypefile, phenotypefile){
     # recombine the genotype. 
     geno <- cbind(geno$snp, chr, geno[,2:dim(geno)[2]])
     colnames(geno)[1:2] = c("ID", "")
-    
-    fwrite(geno, file="chr9.csv", row.names=FALSE)
+    # df[df$aged <= df$laclen, ] 
+    chosenchr = "chr9"
+    subgeno <- geno[geno$snp == chosenchr, ]
+    fwrite(subgeno, file="chr9.csv", row.names=FALSE)
 }
 
 genotypefile = "../../data/tensorqtldata/genotype.ped"
