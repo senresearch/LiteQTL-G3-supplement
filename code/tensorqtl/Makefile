@@ -22,4 +22,5 @@ extractgeno:
 	
 clean_data: 
 	Rscript clean_data.Rscript
-
+time_tensorqtl 
+	python time_tensorqtl.py

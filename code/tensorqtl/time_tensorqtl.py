@@ -18,7 +18,13 @@ chr9_geno_df = chr9_geno_df.drop(chr9_geno_df.columns[[1]], axis=1)
 phenotype_df, phenotype_pos_df = tensorqtl.read_phenotype_bed(expression_bed)
 covariates_df = pd.read_csv(covariates_file, sep='\t', index_col=0).T
 
+import timeit 
+import time 
+start_time =  timeit.default_timer()
 trans_df = trans.map_trans(chr9_geno_df, phenotype_df, covariates_df, batch_size=10000, 
                            return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05)
-
-
+#print("Tensorqtl trans.map_trans function took:"
+#print(timeit.default_timer() - start_time)
+timetaken = timeit.default_timer() - start_time
+msg = "{func} took {time} seconds to complete."
+print(msg.format(func = trans.map_trans.__name__, time = timetaken))
