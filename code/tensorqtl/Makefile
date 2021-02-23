@@ -1,4 +1,4 @@
-all: download_data
+all: download_data unzip_pheno extractgeno clean_data
 
 .PHONY: all
 

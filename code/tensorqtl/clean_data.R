@@ -34,7 +34,7 @@ datacleaning <- function(genotypefile, phenotypefile){
     pheno = pheno[, 4:dim(pheno)[2]]
     # renaming the name of the first column:
     colnames(pheno)[1] = "ID"
-    fwrite(pheno, file="cleanpheno.csv", row.name=FALSE)
+    fwrite(pheno, file="../../data/tensorqtldata/cleanpheno.csv", row.name=FALSE)
 
     ########################
     ## genotypes
@@ -46,14 +46,15 @@ datacleaning <- function(genotypefile, phenotypefile){
     chr = m[,1]
     # recombine the genotype. 
     geno <- cbind(geno$snp, chr, geno[,2:dim(geno)[2]])
-    colnames(geno)[1:2] = c("ID", "")
+    colnames(geno)[1:2] = c("ID", "chr")
     # df[df$aged <= df$laclen, ] 
     chosenchr = "chr9"
-    subgeno <- geno[geno$snp == chosenchr, ]
-    fwrite(subgeno, file="chr9.csv", row.names=FALSE)
+    subgeno <- subset(geno, chr == chosenchr)
+    colnames(subgeno)[2] = ""
+    fwrite(subgeno, file="../../data/tensorqtldata/chr9.csv", row.names=FALSE)
 }
 
-genotypefile = "../../data/tensorqtldata/genotype.ped"
+genotypefile = "../../data/tensorqtldata/genotype.csv"
 phenotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed"
 
 datacleaning(genotypefile, phenotypefile)
