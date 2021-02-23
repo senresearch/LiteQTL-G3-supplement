@@ -8,12 +8,12 @@ import tensorqtl
 
 from tensorqtl import genotypeio, cis, trans
 
-expression_bed = 'GEUVADIS.445_samples.expression.bed.gz'
-covariates_file = 'GEUVADIS.445_samples.covariates.txt'
+expression_bed = '../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed.gz'
+covariates_file = '../../data/tensorqtldata/GEUVADIS.445_samples.covariates.txt'
 
 # read in genotypes:
-chr9_geno_df = pd.read_csv('chr9.csv')  
-
+chr9_geno_df = pd.read_csv('../../data/tensorqtldata/chr9.csv')  
+chr9_geno_df = chr9_geno_df.drop(chr9_geno_df.columns[[1]], axis=1) 
 # load phenotype and covariates
 phenotype_df, phenotype_pos_df = tensorqtl.read_phenotype_bed(expression_bed)
 covariates_df = pd.read_csv(covariates_file, sep='\t', index_col=0).T
