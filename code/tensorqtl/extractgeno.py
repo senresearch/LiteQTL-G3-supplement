@@ -7,11 +7,13 @@ pr = genotypeio.PlinkReader(plink_prefix_path)
 genotype_df = pr.load_genotypes()
 # check the first of dataframe
 genotype_df.head()
+
+genotype_df.to_csv('../../data/tensorqtldata/genotype.csv')
 # check the column names of dataframe
-list(genotype_df.columns)
+#list(genotype_df.columns)
 
 # get the row names :
-rownames = genotype_df.index.values
+#rownames = genotype_df.index.values
 
 # spit chr number from the rest of the row names 
 # deliminator is '_', and max split is 1
@@ -21,11 +23,11 @@ rownames = genotype_df.index.values
 # split and then 
 # genotype_df['chr'] = rownames.astype('str') 
 # split the string into chr number and the rest of the string 
-chr = np.char.split(rownames.astype('str'), sep ='_', maxsplit = 1)
+#chr = np.char.split(rownames.astype('str'), sep ='_', maxsplit = 1)
 # select only the first element after spliting string 
-genotype_df['chr'] = [ i[0] for i in chr ]
+#genotype_df['chr'] = [ i[0] for i in chr ]
 # select all the genotype with chr x 
-genotype_df.loc[genotype_df['chr'] == 'chrX'] 
+#genotype_df.loc[genotype_df['chr'] == 'chrX'] 
 
 
 
