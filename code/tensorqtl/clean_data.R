@@ -54,7 +54,7 @@ datacleaning <- function(genotypefile, phenotypefile){
     fwrite(subgeno, file="../../data/tensorqtldata/chr9.csv", row.names=FALSE)
 }
 
-genotypefile = "../../data/tensorqtldata/genotype.csv"
+genotypefile = "../../data/tensorqtldata/chr9.csv"
 phenotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed"
 
 datacleaning(genotypefile, phenotypefile)

@@ -1,4 +1,4 @@
-all: download_data unzip_pheno extractgeno clean_data
+all: download_data unzip_pheno setupvenv extractgeno clean_data
 
 .PHONY: all
 
@@ -17,6 +17,12 @@ unzip_pheno:
 # 	# wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20201019.zip  --no-check-certificate
 # 	# unzip plink*
 # 	./plink --bfile ../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup --recode --out ../../data/tensorqtldata/genotype
+setupvenv:
+	# cd ~/git/tensorqtl/
+	virtualvenv venv 
+	source venv/bin/activate 
+	pip install -r ~/git/tensorqtl/install/requirements.txt .
+
 extractgeno: 
 	python extractgeno.py
 	
@@ -28,6 +34,9 @@ time_tensorqtl:
 	#sh ./stay/get_it_mix.sh &  PIDMIX=$!
 	#wait $PIDIOS
 	#wait $PIDMIX 
-	./hwsfinfo.sh
+	./hwswinfo.sh
 	python time_tensorqtl.py & PIDPYTHON=$!
 	
+time_liteqtl:
+	./hwswinfo.sh
+	JULIA_NUM_THREADS=6 julia time_liteqtl.jl
