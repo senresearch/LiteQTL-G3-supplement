@@ -22,5 +22,12 @@ extractgeno:
 	
 clean_data: 
 	Rscript clean_data.Rscript
-time_tensorqtl 
-	python time_tensorqtl.py
+time_tensorqtl:
+	# & means send the process to background
+	#sh ./stay/get_it_ios.sh &  PIDIOS=$!
+	#sh ./stay/get_it_mix.sh &  PIDMIX=$!
+	#wait $PIDIOS
+	#wait $PIDMIX 
+	./hwsfinfo.sh
+	python time_tensorqtl.py & PIDPYTHON=$!
+	
