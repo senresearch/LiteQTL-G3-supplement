@@ -9,7 +9,7 @@ export_matrix = false
 
 @time pheno = LiteQTL.get_pheno_data(pheno_file, Float64, transposed=true)
 # 10.865656 seconds (47.21 M allocations: 1.625 GiB, 12.64% gc time)
-@time geno = CSV.read(geno_file)
+@time geno = CSV.read(geno_file, DataFrame)
 # 109.905806 seconds (41.48 M allocations: 46.943 GiB, 0.58% gc time)
 # @time genomat = convert(Matrix{Float32}, geno[:, 3:end]) |> transpose |> collect
 # geno = Nothing

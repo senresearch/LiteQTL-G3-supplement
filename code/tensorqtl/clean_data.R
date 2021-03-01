@@ -1,7 +1,7 @@
 library(stringr)
 library(parallel)
 library(data.table)
-library(rres)
+# library(rres)
 
 
 datacleaning <- function(genotypefile, phenotypefile){
@@ -54,7 +54,7 @@ datacleaning <- function(genotypefile, phenotypefile){
     fwrite(subgeno, file="../../data/tensorqtldata/chr9.csv", row.names=FALSE)
 }
 
-genotypefile = "../../data/tensorqtldata/chr9.csv"
+genotypefile = "../../data/tensorqtldata/genotype.csv"
 phenotypefile = "../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed"
 
 datacleaning(genotypefile, phenotypefile)

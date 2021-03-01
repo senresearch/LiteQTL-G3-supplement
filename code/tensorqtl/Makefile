@@ -18,16 +18,17 @@ unzip_pheno:
 # 	# unzip plink*
 # 	./plink --bfile ../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup --recode --out ../../data/tensorqtldata/genotype
 setupvenv:
-	# cd ~/git/tensorqtl/
+	git clone https://github.com/broadinstitute/tensorqtl
+	cd tensorqtl/
 	virtualvenv venv 
 	source venv/bin/activate 
-	pip install -r ~/git/tensorqtl/install/requirements.txt .
+	pip install -r install/requirements.txt .
 
 extractgeno: 
 	python extractgeno.py
 	
 clean_data: 
-	Rscript clean_data.Rscript
+	Rscript clean_data.R
 time_tensorqtl:
 	# & means send the process to background
 	#sh ./stay/get_it_ios.sh &  PIDIOS=$!
