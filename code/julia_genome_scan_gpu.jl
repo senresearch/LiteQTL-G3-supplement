@@ -5,7 +5,7 @@ using DelimitedFiles
 
 include("benchmark.jl")
 
-function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output_file::AbstractString, maxlod::Bool, datatype::DataType)
+function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output_file::AbstractString, export_matrix::Bool, datatype::DataType)
 
 
     LiteQTL.set_blas_threads(16);
@@ -17,11 +17,12 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     m = size(Y,2)
     p = size(G,2)
     println("******* Individuals n: $n, Traits m: $m, Markers p: $p ****************");
-    # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
+    # cpu_timing = benchmark(5, scan, Y, G,n,export_matrix);
 
     # running analysis.
-    lodgpu = LiteQTL.gpurun(Y, G,n);
-    lodcpu = LiteQTL.cpurun(Y, G,n,true);
+    lodcpu = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);
+    lodgpu = LiteQTL.scan(Y, G,n;usegpu=true);
+    
 
     if all(isapprox.(lodgpu[:,2], lodcpu[:, 2]; atol = 1e-3))
         println("results agree")
@@ -44,8 +45,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
         println("error in gpu reuslt checking!")
     end
 
-    gtiming = benchmark(10, LiteQTL.gpurun, Y, G,n)
-    ctiming = benchmark(10, LiteQTL.cpurun, Y, G,n,true)
+    ctiming = benchmark(10, LiteQTL.scan, Y, G,n,export_matrix=false)
+    gtiming = benchmark(10, LiteQTL.scan, Y, G,n,usegpu=true)
     println("CPU timing: $(ctiming[3]) GPU timing: $(gtiming[3]) with $datatype, $(size(lodgpu))")
     # CPU timing: 21.826452687, GPU timing: 0.3058343105 with Float64, (35554, 2)
     
@@ -55,7 +56,7 @@ end
 
 
 for datatype in [Float64, Float32]
-    for dataset in ["spleen", "hippo"]
+    for dataset in ["spleen"]#, "hippo"]
         println("Julia Genome Scan for $dataset")
         geno_file = joinpath(@__DIR__, "..", "data", "processed", dataset*"-bxd-genoprob.csv")
         pheno_file = joinpath(@__DIR__, "..", "data","processed", dataset*"-pheno-nomissing.csv")

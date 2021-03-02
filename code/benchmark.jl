@@ -1,5 +1,5 @@
 using Statistics
-function benchmark(nrep::Int64,f::Function,x...;results::Bool=false)
+function benchmark(nrep::Int64,f::Function,x...)
     ns2sec = 1.0e-9
 
     res = Array{Float64}(undef, nrep)
@@ -11,10 +11,6 @@ function benchmark(nrep::Int64,f::Function,x...;results::Bool=false)
         res[i] = (finish - start)*ns2sec
     end
 
+    return  [minimum(res) quantile(res,[0.25  0.5 0.75]) maximum(res)]
 
-    if(results)
-        return res
-    else
-        return  [minimum(res) quantile(res,[0.25  0.5 0.75]) maximum(res)]
-    end
 end

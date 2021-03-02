@@ -5,7 +5,7 @@ using DelimitedFiles
 
 include("benchmark.jl")
 
-function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output_file::AbstractString, maxlod::Bool, datatype::DataType)
+function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output_file::AbstractString, export_matrix::Bool, datatype::DataType)
 
 
     LiteQTL.set_blas_threads(16);
@@ -17,11 +17,11 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     m = size(Y,2)
     p = size(G,2)
     println("******* Individuals n: $n, Traits m: $m, Markers p: $p ****************");
-    # cpu_timing = benchmark(5, cpurun, Y, G,n,export_matrix);
+    # cpu_timing = benchmark(5, scan, Y, G,n,export_matrix);
 
     # running analysis.
-    lod = LiteQTL.cpurun(Y, G,n,maxlod);
-    timing = benchmark(10, LiteQTL.cpurun, Y, G,n,maxlod)
+    lod = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);
+    timing = benchmark(10, LiteQTL.scan, Y, G,n,export_matrix)
     println("CPU timing: $(timing[3]) with $datatype")
     # write output to file
     writedlm(output_file, lod, ',')
