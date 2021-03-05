@@ -28,6 +28,7 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
     print("done calc genoprob")
     write.csv(pr, file=genoprobfile, row.names=FALSE)
+    write.csv(cvt1$gmap, file=gmapfile, row.names=FALSE)
 
     scantime <- system.time({
         out <- scan1(pr, cvt1$pheno, cores=16)
@@ -52,6 +53,7 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 }
 
 # Run scan for spleen data. 
+gmapfile <- "../data/processed/gmap.csv"
 
 rqtlfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
 cleanphenofile <- "../data/processed/spleen-pheno-nomissing.csv"
