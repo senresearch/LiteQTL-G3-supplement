@@ -20,7 +20,12 @@ unzip_pheno:
 setupvenv:
 	git clone https://github.com/broadinstitute/tensorqtl
 	cd tensorqtl/
-	virtualvenv venv 
+	virtualenv venv 
+	source venv/bin/activate 
+	pip install -r install/requirements.txt .
+
+activatevenv: 
+	cd tensorqtl/
 	source venv/bin/activate 
 	pip install -r install/requirements.txt .
 
@@ -36,8 +41,8 @@ time_tensorqtl:
 	#wait $PIDIOS
 	#wait $PIDMIX 
 	./hwswinfo.sh
-	python time_tensorqtl.py & PIDPYTHON=$!
+	python time_tensorqtl.py
 	
 time_liteqtl:
 	./hwswinfo.sh
-	JULIA_NUM_THREADS=6 julia time_liteqtl.jl
+	JULIA_NUM_THREADS=16 julia time_liteqtl.jl

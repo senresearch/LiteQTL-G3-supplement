@@ -31,3 +31,5 @@ trans_df = trans.map_trans(chr9_geno_df, phenotype_df, covariates_df, batch_size
 timetaken = timeit.default_timer() - start_time
 msg = "{func} took {time} seconds to complete."
 print(msg.format(func = trans.map_trans.__name__, time = timetaken))
+
+# map_trans took 4.8016955852508545 seconds to complete. # use GPU Nvidia V100
