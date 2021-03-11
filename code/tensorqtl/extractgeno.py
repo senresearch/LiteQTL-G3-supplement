@@ -1,5 +1,6 @@
 import tensorqtl
 from tensorqtl import genotypeio
+import pandas as pd
 
 plink_prefix_path = '../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup'
 
@@ -29,6 +30,8 @@ genotype_df.to_csv('../../data/tensorqtldata/genotype.csv')
 # select all the genotype with chr x 
 #genotype_df.loc[genotype_df['chr'] == 'chrX'] 
 
-
+covariates_file = '../../data/tensorqtldata/GEUVADIS.445_samples.covariates.txt'
+covariates_df = pd.read_csv(covariates_file, sep='\t', index_col=0).T
+covariates_df.to_csv('../../data/tensorqtldata/covariates.csv')
 
 
