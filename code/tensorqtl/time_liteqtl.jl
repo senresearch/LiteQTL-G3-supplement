@@ -29,7 +29,7 @@ export_matrix = false
 # ChrX: 436393
 
 # It takes about 60 seconds to do this step. 
-datatype = Float64
+datatype = Float32
 @time genomat = convert(Matrix{datatype}, geno[:, 3:end]) |> transpose |> collect
 pheno = convert(Matrix{datatype}, pheno)
 # gc
@@ -49,6 +49,31 @@ n = size(Y,1)
 m = size(Y,2)
 p = size(G,2)
 println("******* Indivuduals n: $n, Traits m: $m, Markers p: $p ****************");
+println("Precompiling functions.")
+lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);
+lodg = LiteQTL.scan(Y, G,n;usegpu=true)
+lodc = Nothing; lodg = Nothing;
+
 println("Calclating LOD takes: ")
-@time lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);
-#@time lodg = LiteQTL.scan(Y, G,n;usegpu=true)
+@time lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);             
+#330.735274 seconds (14.96 M allocations: 83.345 GiB, 0.17% gc time) 
+CUDA.@elapsed lodg = LiteQTL.scan(Y, G,n;usegpu=true)
+# 11.532153 seconds (13.87 M allocations: 794.160 MiB, 3.00% gc time) (Tux03, Nvidia V100)
+
+##################################################################################
+# With Covariates
+println("Running with covariates.")
+covarfile = "../../data/tensorqtldata/covariates.csv"
+covar = CSV.read(covarfile, DataFrame)
+X = convert(Matrix{datatype}, covar[:, 2:end])|> collect
+covar = Nothing
+
+println("Precompiling functions:")
+lodc = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
+lodg = LiteQTL.scan(Y, G,X,n;usegpu=true); 
+lodc = Nothing; lodg = Nothing;
+
+println("Running genome scan with covariates. Calculating LOD takes: ")
+@time lodc = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
+CUDA.@elapsed lodg = LiteQTL.scan(Y, G,X,n;usegpu=true); 
+# 4.45 seconds
