@@ -27,7 +27,7 @@ setupvenv:
 activatevenv: 
 	cd tensorqtl/
 	source venv/bin/activate 
-	pip install -r install/requirements.txt .
+	# pip install -r install/requirements.txt .
 
 extractgeno: 
 	python extractgeno.py
