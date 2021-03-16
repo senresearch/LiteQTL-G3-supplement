@@ -54,12 +54,12 @@ println("Precompiling functions.")
 small_Y = Y[1:100, 1:100]
 small_G = G[1:100, 1:100]
 
-lodc=LiteQTL.scan(small_Y, small_G,n;export_matrix=export_matrix);
-lodg=LiteQTL.scan(small_Y, small_G,n;usegpu=true)
+LiteQTL.scan(small_Y, small_G,n;export_matrix=export_matrix);
+LiteQTL.scan(small_Y, small_G,n;usegpu=true)
 
 
 println("###### Getting timing: Calclating LOD takes: ")
-# @time lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);   
+@time lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);   
 # lodc = Nothing;           
 #330.735274 seconds (14.96 M allocations: 83.345 GiB, 0.17% gc time) 
 gtime=CUDA.@elapsed lodg = LiteQTL.scan(Y, G,n;usegpu=true)
@@ -77,10 +77,10 @@ LiteQTL.scan(small_Y, small_G, small_X,n;export_matrix=export_matrix);
 LiteQTL.scan(small_Y, small_G, small_X,n;usegpu=true); 
 
 println("Running genome scan with covariates. Calculating LOD takes: ")
-# @time lodccovar = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
-writedlm("julia-scan-covar-result-cpu.csv", lodc, ',')
+@time lodccovar = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
+writedlm("julia-scan-covar-result-cpu.csv", lodccovar, ',')
 
 gcovartime = CUDA.@elapsed lodgcovar = LiteQTL.scan(Y, G,X,n;usegpu=true); 
 println("###### Running genome scan with covariates on GPU. It takes $gcovartime seconds.")
-writedlm("julia-scan-covar-result-gpu.csv", lodg, ',')
+writedlm("julia-scan-covar-result-gpu.csv", lodgcovar, ',')
 # 4.45 seconds
