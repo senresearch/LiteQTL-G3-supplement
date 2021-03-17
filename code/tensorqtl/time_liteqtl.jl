@@ -77,7 +77,8 @@ LiteQTL.scan(small_Y, small_G, small_X,n;export_matrix=export_matrix);
 LiteQTL.scan(small_Y, small_G, small_X,n;usegpu=true); 
 
 println("Running genome scan with covariates. Calculating LOD takes: ")
-@time lodccovar = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
+ccovartime = @elapsed lodccovar = LiteQTL.scan(Y, G,X,n;export_matrix=export_matrix); 
+println("###### Running genome scan with covariates on CPU. It takes $ccovartime seconds.")
 writedlm("julia-scan-covar-result-cpu.csv", lodccovar, ',')
 
 gcovartime = CUDA.@elapsed lodgcovar = LiteQTL.scan(Y, G,X,n;usegpu=true); 
