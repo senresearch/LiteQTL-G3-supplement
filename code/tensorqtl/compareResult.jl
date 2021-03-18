@@ -2,7 +2,7 @@ using DelimitedFiles
 using Distributions
 
 function lod2p(lod)
-    return 1-cdf(Chisq(3),2*log(10)*lod)
+    return 1-cdf(Chisq(1),2*log(10)*lod)
 end
 
 pyresult = readdlm("tensorqtl-scan-covar.csv", ',')

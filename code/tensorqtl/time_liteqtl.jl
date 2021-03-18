@@ -15,22 +15,7 @@ geno = CSV.read(geno_file, DataFrame)
 # @time genomat = convert(Matrix{Float32}, geno[:, 3:end]) |> transpose |> collect
 # geno = Nothing
 
-# pick out chr1 genos 
-#genobychr = groupby(geno, :Column2)
-#onechr = genobychr[(Column2="9",)]
-# Chr1: 5618644x447; 
-# Chr2: 1738829; 
-# Chr3: 919842; 
-# Chr4: 944044; 
-# Chr5: 820554; 
-# Chr6: 849929
-# Chr7: 762694
-# Chr8: 719376
-# Chr9: 558963
-# ChrX: 436393
-
-# It takes about 60 seconds to do this step. 
-datatype = Float32
+datatype = Float64
 genomat = convert(Matrix{datatype}, geno[:, 3:end]) |> transpose |> collect
 pheno = convert(Matrix{datatype}, pheno)
 # gc
@@ -60,10 +45,12 @@ LiteQTL.scan(small_Y, small_G,n;usegpu=true)
 
 println("###### Getting timing: Calclating LOD takes: ")
 @time lodc = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);   
+writedlm("julia-scan-result-cpu.csv", lodc, ',')
 # lodc = Nothing;           
 #330.735274 seconds (14.96 M allocations: 83.345 GiB, 0.17% gc time) 
 gtime=CUDA.@elapsed lodg = LiteQTL.scan(Y, G,n;usegpu=true)
 println("###### GPU running time is $gtime")
+writedlm("julia-scan-result-gpu.csv", lodg, ',')
 # 11.532153 seconds (13.87 M allocations: 794.160 MiB, 3.00% gc time) (Tux03, Nvidia V100)
 
 ##################################################################################

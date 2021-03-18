@@ -1,4 +1,4 @@
-all: download_data unzip_pheno setupvenv extractgeno clean_data
+all: download_data unzip_pheno setupvenv extractgeno clean_data time_tensorqtl time_liteqtl
 
 .PHONY: all
 
