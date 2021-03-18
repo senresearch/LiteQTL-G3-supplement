@@ -4,7 +4,7 @@
 	- [x] Unzip phenotype data file
 	- [x] Convert genotype file from plink to csv
 	- [x] Convert phenotype and genotype to a format usable by LiteQTL 
-	- [ ] Runs tensorqtl and time it
-	- [ ] Runs LiteQTL and time it
-	- [ ] Get timing and result comparison 
+	- [x] Runs tensorqtl and time it
+	- [x] Runs LiteQTL and time it
+	- [x] Get timing and result comparison 
 
