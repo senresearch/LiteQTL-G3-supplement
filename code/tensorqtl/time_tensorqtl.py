@@ -32,5 +32,7 @@ timetaken = timeit.default_timer() - start_time
 msg = "{func} took {time} seconds to complete."
 print(msg.format(func = trans.map_trans.__name__, time = timetaken))
 
-trans_df.to_csv('tensorqtl-scan-covar.csv')
+# trans_df.to_csv('tensorqtl-scan-covar.csv')
 # map_trans took 4.8016955852508545 seconds to complete. # use GPU Nvidia V100
+
+# subset data set, getting a smaller end result for the purpose of comparing TensorQTL vs LiteQTL. 
