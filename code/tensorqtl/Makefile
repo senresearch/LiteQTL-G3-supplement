@@ -35,6 +35,12 @@ extractgeno:
 	
 clean_data: 
 	Rscript clean_data.R
+
+compare_result_with_tensorqtl:
+	python small-data-test-tensorqtl.py 
+	julia small-data-test-liteqtl.jl 
+	julia compareResult.jl 
+
 time_tensorqtl:
 	# & means send the process to background
 	#sh ./stay/get_it_ios.sh &  PIDIOS=$!

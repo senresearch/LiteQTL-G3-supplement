@@ -6,11 +6,13 @@ function lod2p(lod)
 end
 
 pyresult = readdlm("tensorqtl-scan-covar.csv", ',')
-jugresult = readdlm("julia-scan-covar-result-gpu.csv", ',')
-jucresult = readdlm("julia-scan-covar-result-cpu.csv", ',')
+# jugresult = readdlm("julia-scan-covar-result-gpu.csv", ',')
+# jucresult = readdlm("julia-scan-covar-result-cpu.csv", ',')
+
+juresult = readdlm("julia-scan-pval-result-cpu.csv", ",")
 
 pyp = pyresult[:, 4]
-jup = lod2p.(jugresult[:,2])
+# jup = lod2p.(juresult[:,2])
 
 # julia> jup[1:10]
 # 10-element Array{Float64,1}:
