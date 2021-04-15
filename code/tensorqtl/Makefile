@@ -18,16 +18,18 @@ unzip_pheno:
 # 	# unzip plink*
 # 	./plink --bfile ../../data/tensorqtldata/GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup --recode --out ../../data/tensorqtldata/genotype
 setupvenv:
-	git clone https://github.com/broadinstitute/tensorqtl
-	cd tensorqtl/ && \
+	git clone https://github.com/senresearch/tensorqtl ~/git/tensorqtl
+	cd ~/git/tensorqtl/ && \
 	git checkout 1760a34 && \
 	virtualenv venv && \
 	source venv/bin/activate && \
 	pip install -r install/requirements.txt . && \
 	pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html 
+	# Make sure the tensorqtl used is from your disk, and reflects changes you made on the source code. 
+	pip install -e ~/git/tensorqtl/
 
 activatevenv: 
-	cd tensorqtl/; \
+	cd ~/git/tensorqtl/; \
 	source venv/bin/activate
 
 extractgeno: 
