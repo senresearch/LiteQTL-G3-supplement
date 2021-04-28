@@ -16,6 +16,7 @@ from tensorqtl import genotypeio, cis, trans
 
 expression_bed = '../../data/tensorqtldata/GEUVADIS.445_samples.expression.bed.gz'
 covariates_file = '../../data/tensorqtldata/GEUVADIS.445_samples.covariates.txt'
+timing_file = "/home/xiaoqihu/git/LiteQTL-G3-supplement/code/tensorqtl/tensorqtl_timing_report.txt"
 
 # read in genotypes:
 chr9_geno_df = pd.read_csv('../../data/tensorqtldata/chr9.csv')  
@@ -30,58 +31,49 @@ small_geno_df = chr9_geno_df.iloc[0:20000, :]
 # small_geno_df = chr9_geno_df
 
 ##################################### start profiling ########################################
+with open(timing_file, 'w') as file1:
+    file1.write(f'time_stamp,device,data_transfer_time,compute_time,result_reorg_time,pval_time,elapsed_total\n')
+# device = torch.device("cpu")
+# trans_df, cpucalctime = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
+#                                 return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05, device=device, timing_file=timing_file)
 
-##################################### Full Matrix Case ########################################
-for numthreads in [20, 40, 80]:
+for i in range(0,10):
+    ##################################### Full Matrix Case ########################################
+    for numthreads in [20]:
 
-    torch.set_num_threads(numthreads)
-    device = torch.device("cpu")
-    trans_df, cpucalctime = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
-                            return_sparse=False, pval_threshold=1, maf_threshold=0.00, device=device)
+        torch.set_num_threads(numthreads)
+        device = torch.device("cpu")
+        trans_df, cpucalctime = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
+                                return_sparse=False, pval_threshold=1, maf_threshold=0.00, device=device, timing_file=timing_file)
 
-    device = torch.device("cuda")
-    (trans_df, gpucalctime) = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
-                            return_sparse=False, pval_threshold=1, maf_threshold=0.00, device=device)
+        device = torch.device("cuda")
+        (trans_df, gpucalctime) = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
+                                return_sparse=False, pval_threshold=1, maf_threshold=0.00, device=device, timing_file=timing_file)
 
-    n = small_geno_df.shape[1]
-    m = phenotype_df.shape[0]
-    p = small_geno_df.shape[0]
-    with open("/home/xiaoqihu/git/LiteQTL-G3-supplement/code/tensorqtl/tensorqtl_timing_report.txt", 'a') as file1:
-        file1.write(f'{datetime.datetime.now()} \t n:{n},m:{m},p:{p} TensorQTL: \t nthreads: {torch.get_num_threads()} \t cpu(s):{cpucalctime} \t gpu(s){gpucalctime}\n\n')
+        n = small_geno_df.shape[1]
+        m = phenotype_df.shape[0]
+        p = small_geno_df.shape[0]
+        with open(timing_file, 'a') as file1:
+            file1.write(f'#{datetime.datetime.now()},n:{n} m:{m} p:{p} TensorQTL Full Matrix,nthreads: {torch.get_num_threads()},cpu(s):{cpucalctime},gpu(s){gpucalctime}\n#\n')
 
-# trans_df.to_csv('tensorqtl-scan-pval.csv')
+trans_df.to_csv('tensorqtl-scan-pval.csv')
 
-##################################### Sparse Matrix Case ########################################
-for numthreads in [20,40,80]:
+for i in range(0,10):
+    ##################################### Sparse Matrix Case ########################################
+    for numthreads in [20]:
 
-    torch.set_num_threads(numthreads)
-    device = torch.device("cpu")
-    trans_df, cpucalctime = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
-                            return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05, device=device)
+        torch.set_num_threads(numthreads)
+        print(torch.get_num_threads())
+        device = torch.device("cpu")
+        trans_df, cpucalctime = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
+                                return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05, device=device, timing_file=timing_file)
 
-    device = torch.device("cuda")
-    (trans_df, gpucalctime) = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
-                            return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05, device=device)
+        device = torch.device("cuda")
+        (trans_df, gpucalctime) = trans.map_trans(small_geno_df, phenotype_df, batch_size=20000, 
+                                return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05, device=device, timing_file=timing_file)
 
-    n = small_geno_df.shape[1]
-    m = phenotype_df.shape[0]
-    p = small_geno_df.shape[0]
-    with open("/home/xiaoqihu/git/LiteQTL-G3-supplement/code/tensorqtl/tensorqtl_timing_report.txt", 'a') as file1:
-        file1.write(f'{datetime.datetime.now()} \t n:{n},m:{m},p:{p} TensorQTL: \t nthreads: {torch.get_num_threads()} \t cpu(s):{cpucalctime} \t gpu(s){gpucalctime}\n\n')
-
-
-
-# start_time =  timeit.default_timer()
-# trans_df = trans.map_trans(chr9_geno_df, phenotype_df, covariates_df, batch_size=20000, 
-#                            return_sparse=True, pval_threshold=1e-5, maf_threshold=0.05)
-# #print("Tensorqtl trans.map_trans function took:"
-# #print(timeit.default_timer() - start_time)
-# timetaken = timeit.default_timer() - start_time
-# msg = "{func} took {time} seconds to complete."
-# print(msg.format(func = trans.map_trans.__name__, time = timetaken))
-# # map_trans took 4.8016955852508545 seconds to complete. # use GPU Nvidia V100
-
-# trans_df.to_csv('tensorqtl-scan-covar.csv')
-
-# import sys
-# sys.getsizeof(trans_df) / (1024 *1024 *1024)
+        n = small_geno_df.shape[1]
+        m = phenotype_df.shape[0]
+        p = small_geno_df.shape[0]
+        with open(timing_file, 'a') as file1:
+            file1.write(f'#{datetime.datetime.now()},n:{n} m:{m} p:{p}, TensorQTL Filtered,nthreads: {torch.get_num_threads()},cpu(s):{cpucalctime},gpu(s){gpucalctime}\n#\n')
