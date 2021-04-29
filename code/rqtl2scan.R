@@ -28,7 +28,6 @@ scan <- function(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
     print("done calc genoprob")
     write.csv(pr, file=genoprobfile, row.names=FALSE)
-    write.csv(cvt1$gmap, file=gmapfile, row.names=FALSE)
 
     scantime <- system.time({
         out <- scan1(pr, cvt1$pheno, cores=16)
@@ -65,10 +64,10 @@ scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
 
 ## Run scan for hippo data. 
 
-rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
-cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
-genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
-rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
-maxlod = TRUE 
+# rqtlfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
+# cleanphenofile <- "../data/processed/hippo-pheno-nomissing.csv"
+# genoprobfile <- "../data/processed/hippo-bxd-genoprob.csv"
+# rqtlresultfile <- "../data/results/hippo_rqtl_lod_score.csv"
+# maxlod = TRUE 
 
-scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)
+# scan(rqtlfile, cleanphenofile, genoprobfile, rqtlresultfile, maxlod)

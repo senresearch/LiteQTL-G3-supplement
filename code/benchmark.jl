@@ -1,12 +1,12 @@
 using Statistics
-function benchmark(nrep::Int64,f::Function,x...)
+function benchmark(nrep::Int64,f::Function,x...; kw...)
     ns2sec = 1.0e-9
 
     res = Array{Float64}(undef, nrep)
 
     for i=1:nrep
         start = time_ns()
-        f(x...)
+        f(x...; kw...)
         finish = time_ns()
         res[i] = (finish - start)*ns2sec
     end

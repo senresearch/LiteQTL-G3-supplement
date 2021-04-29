@@ -20,8 +20,8 @@ function main_scan(geno_file::AbstractString, pheno_file::AbstractString, output
     # cpu_timing = benchmark(5, scan, Y, G,n,export_matrix);
 
     # running analysis.
-    lod = LiteQTL.scan(Y, G,n;export_matrix=export_matrix);
-    timing = benchmark(10, LiteQTL.scan, Y, G,n,export_matrix)
+    lod = LiteQTL.scan(Y, G;export_matrix=false,maf_threshold=0.00);
+    timing = benchmark(10, LiteQTL.scan, Y, G, export_matrix=false,maf_threshold=0.00)
     println("CPU timing: $(timing[3]) with $datatype")
     # write output to file
     writedlm(output_file, lod, ',')
@@ -30,15 +30,15 @@ end
 
 
 for datatype in [Float64, Float32]
-    for dataset in ["spleen", "hippo"]
+    for dataset in ["spleen"]#, "hippo"]
         println("Julia Genome Scan for $dataset")
         geno_file = joinpath(@__DIR__, "..", "data", "processed", dataset*"-bxd-genoprob.csv")
         pheno_file = joinpath(@__DIR__, "..", "data","processed", dataset*"-pheno-nomissing.csv")
 
         output_file = joinpath(Base.@__DIR__, "..", "data", "results", string(datatype) * dataset*"_LiteQTL_output.csv")
-        maxlod = true # same as maxlod = true
+        export_matrix = false # same as maxlod = true
 
-        res = main_scan(geno_file, pheno_file, output_file, maxlod, datatype)
+        res = main_scan(geno_file, pheno_file, output_file, export_matrix, datatype)
     end
 end
 

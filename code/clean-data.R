@@ -3,7 +3,7 @@
 library(tidyverse)
 library(data.table)
 
-reorgdata<-function(genofile, phenofile, outputfile){
+reorgdata<-function(genofile, phenofile, outputfile, gmapfile){
 
   pheno <- read.csv(phenofile,skip=32,
                 sep="\t",colClasses="character")
@@ -33,6 +33,8 @@ reorgdata<-function(genofile, phenofile, outputfile){
 
   ## select marker information columns
   gmap <- select(geno,one_of("Locus","Chr","cM","Mb"))
+  write.csv(gmap, gmapfile, row.names=FALSE)
+
   ## select BXD columns
   geno_bxd_cols <- select(geno,matches("BXD"))
   ## put together BXD and marker info
@@ -79,7 +81,7 @@ reorgdata<-function(genofile, phenofile, outputfile){
   genopheno <- relocate(genopheno,id,.before=1)
 
   ## remove mb positions
-  genopheno <- filter(genopheno,id!="Mb")
+  # genopheno <- filter(genopheno,id!="Mb")
 
   transposedf<-function(df){
     library(data.table)
@@ -99,12 +101,13 @@ reorgdata<-function(genofile, phenofile, outputfile){
   write_csv(cbind(rownames(t_genopheno), t_genopheno),path=outputfile,col_names=F, na="")
 }
 
+gmapfile <- "../data/processed/gmap.csv"
 # running genome scan for spleen data. 
 genofile <- "../data/raw/bxd.geno" 
 phenofile <- "../data/raw/bxdspleen.txt"
 outputfile <- "../data/processed/spleen-geno-pheno-rqtl.csv"
 
-reorgdata(genofile, phenofile, outputfile)
+reorgdata(genofile, phenofile, outputfile, gmapfile)
 
 
 # # running genome scan for hippocampus data. 
@@ -112,5 +115,5 @@ reorgdata(genofile, phenofile, outputfile)
 # phenofile <- "../data/raw/bxdhippo.txt"
 # outputfile <- "../data/processed/hippo-geno-pheno-rqtl.csv"
 
-# reorgdata(genofile, phenofile, outputfile)
+# reorgdata(genofile, phenofile, outputfile, gmapfile)
 
