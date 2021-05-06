@@ -3,7 +3,7 @@
 library(tidyverse)
 library(data.table)
 
-reorgdata<-function(genofile, phenofile, outputfile, gmapfile){
+reorgdata<-function(genofile, phenofile, outputfile, gmapfile, phenocovar_file){
 
   pheno <- read.csv(phenofile,skip=32,
                 sep="\t",colClasses="character")
@@ -20,8 +20,11 @@ reorgdata<-function(genofile, phenofile, outputfile, gmapfile){
 
   ## select probeset column
   probeset  <- select(pheno,"ProbeSet")
+  phenocovar <- select(pheno, "ProbeSet", "Chr", "Mb")
+  write.csv(phenocovar, phenocovar_file, row.names=FALSE)
   ## select BXD columns
   pheno_bxd_cols <- select(pheno,matches("BXD"))
+
   ## put probeset and BXD together
   chosenpheno  <- cbind(probeset,pheno_bxd_cols)
   ## get the names of each column
@@ -102,6 +105,7 @@ reorgdata<-function(genofile, phenofile, outputfile, gmapfile){
 }
 
 gmapfile <- "../data/processed/gmap.csv"
+phenocovar_file <- "../data/processed/phenocovar.csv"
 # running genome scan for spleen data. 
 genofile <- "../data/raw/bxd.geno" 
 phenofile <- "../data/raw/bxdspleen.txt"
